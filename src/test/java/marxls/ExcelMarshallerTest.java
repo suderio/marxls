@@ -17,7 +17,7 @@ public class ExcelMarshallerTest {
 	private ExcelMarshaller marshaller;
 
 	@Before
-	public void setup() {
+	public void setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		try {
 			marshaller = ExcelMarshaller.create(new File(this.getClass().getResource("exemplo.yml").toURI()));
 			marshaller.read(new File(this.getClass().getResource("Pasta2.xlsx").toURI()));
@@ -27,7 +27,7 @@ public class ExcelMarshallerTest {
 	}
 
 	@Test
-	public void test() {
+	public void testSimpleEntity() {
 		List<SimpleEntity> p = marshaller.get(SimpleEntity.class);
 		assertThat(p.size(), equalTo(3));
 	}

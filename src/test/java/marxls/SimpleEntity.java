@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class SimpleEntity {
 	private Date date;
-	private int integer;
+	private Integer integer;
 	private BigDecimal decimal;
-	private double doubleNumber;
+	private Double doubleNumber;
 	private String text;
 }

@@ -8,7 +8,7 @@ mappings:
     - {title: D03, converter: date, property: date}
     - {title: D04, converter: integer, property: integer}
     - {title: D05, converter: decimal(2), property: decimal}
-    - {title: D06, converter: decimal(8), property: doubleNumber}
+    - {title: D06, converter: double, property: doubleNumber}
     - {title: D02, property: text}
   - 
     # enum
