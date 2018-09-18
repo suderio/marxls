@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -32,29 +32,26 @@ public class ExcelMarshaller {
 
 	private Mappings mappings;
 	private Set<String> sheets;
-	private Map<Class<?>, List<Object>> repository;
+	private Map<Class<?>, Map<Integer, Object>> repository;
+	private String separator;
 
-	private ExcelMarshaller(File yaml) throws JsonParseException, JsonMappingException, IOException {
+	private ExcelMarshaller(File yaml, String separator) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		this.mappings = mapper.readValue(yaml, Mappings.class);
 		this.sheets = new HashSet<>();
 		this.repository = new HashMap<>();
+		this.separator = separator;
+	}
+	
+	private ExcelMarshaller(File yaml) throws JsonParseException, JsonMappingException, IOException {
+		this(yaml, ";");
 	}
 
 	public static ExcelMarshaller create(File file) throws JsonParseException, JsonMappingException, IOException {
 		ExcelMarshaller marshaller = new ExcelMarshaller(file);
 		for (Mapping mapping : marshaller.mappings.getMappings()) {
-			mapping.getClassName();
-			mapping.getName();
 			marshaller.sheets.add(mapping.getSheet());
-			for (Property property : mapping.getProperties()) {
-				property.getColumn();
-				property.getConverter();
-				property.getProperty();
-				property.getTitle();
-			}
 		}
-
 		return marshaller;
 	}
 
@@ -66,69 +63,107 @@ public class ExcelMarshaller {
 			for (Mapping mapping : this.mappings.getMappings()) {
 				sheet = file.sheet(mapping.getSheet());
 				klazz = Class.forName(mapping.getClassName());
-				repository.put(klazz, new ArrayList<>());
+				repository.put(klazz, new HashMap<>());
 				for (int line : getLines(sheet)) {
 					Object entity = klazz.newInstance();
-					for (Property property : mapping.getProperties()) {
-						try {
-							System.out.println("Lendo " + line + ", " + column(sheet, property) + ": "
-									+ property.getTitle() + ", " + property.getProperty());
-							sheet.read(line, column(sheet, property), function(property), value -> {
-								try {
-									PropertyUtils.setProperty(entity, property.getProperty(), value);
-								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-									System.out.println("A propriedade " + property.getProperty()
-											+ " não foi encontrada em " + mapping.getClassName());
-								}
-							});
-						} catch (IllegalArgumentException | NullPointerException e) {
-							System.out
-									.println("A coluna referente à " + property.getProperty() + " não foi encontrada.");
-						}
+					for (Member member : mapping.getMembers()) {
+						setMember(sheet, line, entity, member);
 					}
-					repository.get(klazz).add(entity);
+					repository.get(klazz).put(line, entity);
 				}
 			}
 		}
 	}
 
+	private final void setMember(ExcelSheet sheet, int line, Object entity, Member member) {
+		try {
+			System.out.println("Lendo " + line + ", " + column(sheet, member) + ": " + member.getTitle() + ", "
+					+ member.getProperty());
+			if (member.isReferenceBased()) {
+				sheet.read(line, column(sheet, member), converter(member),
+						value -> setProperty(entity, member.getProperty(), value));
+			} else {
+				Class<?> key = getClass(member.getConverter());
+				setProperty(entity, member.getProperty(), repository.get(key).get(line));
+			}
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println("A coluna referente à " + member.getProperty() + " não foi encontrada.");
+		}
+	}
+
+	private final void setProperty(Object bean, String name, Object value) {
+		try {
+			if (Arrays.asList(PropertyUtils.getPropertyType(bean, name).getInterfaces()).contains(Collection.class)) {
+				// TODO
+			} else {
+				PropertyUtils.setProperty(bean, name, value);
+			}
+		} catch (ReflectiveOperationException e) {
+			System.out.println("A propriedade " + name + " não foi encontrada em " + bean.getClass().getSimpleName());
+		}
+	}
+
+	private final Class<?> getClass(String className) {
+		try {
+			return Class.forName(className);
+		} catch (ClassNotFoundException | NullPointerException e) {
+			return null;
+		}
+	}
+
 	@SuppressWarnings("unchecked")
-	private <T> Function<String, T> function(Property property) {
-		if ("integer".equals(property.getConverter())) {
+	private final <T> Function<String, T> converter(Member member) {
+		Class<?> klazz;
+		if ((klazz = getClass(member.getConverter())) != null) {
+			if (klazz.isEnum()) {
+				return a -> {
+					try {
+						return (T) klazz.getMethod("valueOf", String.class).invoke(klazz, a);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+							| NoSuchMethodException | SecurityException e) {
+						return null;
+					}
+				};
+			} else {
+				// TODO ???
+				return null;
+			}
+		} else if ("integer".equals(member.getConverter())) {
 			return a -> (T) Integer.valueOf(a);
-		} else if ("date".equals(property.getConverter())) {
+		} else if ("date".equals(member.getConverter())) {
 			return value -> (T) DateUtil.getJavaDate(Double.valueOf(value), true);
-		} else if ("decimal(2)".equals(property.getConverter())) {
+		} else if ("decimal(2)".equals(member.getConverter())) {
 			return a -> (T) new BigDecimal(a).setScale(2, RoundingMode.HALF_UP);
-		} else if ("decimal(8)".equals(property.getConverter())) {
+		} else if ("decimal(8)".equals(member.getConverter())) {
 			return a -> (T) new BigDecimal(a).setScale(8, RoundingMode.HALF_UP);
-		} else if ("double".equals(property.getConverter())) {
+		} else if ("double".equals(member.getConverter())) {
 			return a -> (T) Double.valueOf(a);
 		} else {
-			return a -> (T) a;
+			return a -> (T) a.toString();
 		}
 	}
 
-	private int column(ExcelSheet sheet, Property property) {
+	private final int column(ExcelSheet sheet, Member member) {
 		try {
-			return property.isTitleBased()
+			return member.isTitleBased()
 					? sheet.getColumn(cell -> CellType.STRING.equals(cell.getCellTypeEnum())
-							&& cell.getStringCellValue().equalsIgnoreCase(property.getTitle()))
-					: convertColStringToIndex(property.getColumn());
+							&& cell.getStringCellValue().equalsIgnoreCase(member.getTitle()))
+					: convertColStringToIndex(member.getColumn());
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Coluna "
-					+ (property.isTitleBased() ? property.getTitle() : property.getColumn()) + " não encontrada.", e);
+			throw new IllegalArgumentException(
+					"Coluna " + (member.isTitleBased() ? member.getTitle() : member.getColumn()) + " não encontrada.",
+					e);
 		}
 	}
 
-	private SortedSet<Integer> getLines(ExcelSheet sheet) {
+	private final SortedSet<Integer> getLines(ExcelSheet sheet) {
 		SortedSet<Integer> rows = sheet.getRows(row -> row.getFirstCellNum() >= 0);
 		return rows.isEmpty() ? rows : rows.tailSet(rows.first() + 1);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> List<T> get(Class<T> klazz) {
-		return (List<T>) repository.get(klazz);
+	public final <T> Map<Integer, T> get(Class<T> klazz) {
+		return (Map<Integer, T>) repository.get(klazz);
 	}
 
 }

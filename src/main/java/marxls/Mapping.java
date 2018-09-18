@@ -9,5 +9,5 @@ public class Mapping {
 	private String name;
 	private String sheet;
 	private String className;
-	private List<Property> properties;
+	private List<Member> members;
 }

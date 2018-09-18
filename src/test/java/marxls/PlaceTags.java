@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class PlaceTags {
 	private List<String> tags;
-	private Place place;
+	private List<Place> places;
 }

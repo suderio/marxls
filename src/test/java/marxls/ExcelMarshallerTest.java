@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,9 +28,31 @@ public class ExcelMarshallerTest {
 	}
 
 	@Test
-	public void testSimpleEntity() {
-		List<SimpleEntity> p = marshaller.get(SimpleEntity.class);
+	public void testSimpleMembers() {
+		Map<Integer, SimpleEntity> p = marshaller.get(SimpleEntity.class);
 		assertThat(p.size(), equalTo(3));
+		assertThat(p.get(4).getInteger(), equalTo(45));
 	}
 
+	@Test
+	public void testEnum() {
+		Map<Integer, Address> p = marshaller.get(Address.class);
+		assertThat(p.size(), equalTo(2));
+		assertThat(p.get(2).getText(), equalTo("Texto 1"));
+	}
+
+	@Test
+	public void testBeanMemberWithoutReference() {
+		Map<Integer, Place> p = marshaller.get(Place.class);
+		assertThat(p.size(), equalTo(2));
+		assertThat(p.get(2).getDescription(), equalTo("teste 1"));
+	}
+	
+	@Test
+	public void testMemberWithMultiValue() {
+		Map<Integer, PlaceTags> p = marshaller.get(PlaceTags.class);
+		assertThat(p.size(), equalTo(2));
+		assertThat(p.get(2).getPlaces().size(), equalTo(2));
+		assertThat(p.get(2).getTags().size(), equalTo(2));
+	}
 }

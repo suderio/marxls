@@ -4,7 +4,7 @@ mappings:
     name: simpleEntity
     className: marxls.SimpleEntity
     sheet: Plan1
-    properties:
+    members:
     - {title: D03, converter: date, property: date}
     - {title: D04, converter: integer, property: integer}
     - {title: D05, converter: decimal(2), property: decimal}
@@ -15,7 +15,7 @@ mappings:
     name: address
     className: marxls.Address
     sheet: Plan2
-    properties:
+    members:
     - {title: C13, property: text}
     - {title: C14, converter: marxls.Country, property: country}
   -
@@ -23,7 +23,7 @@ mappings:
     name: place
     className: marxls.Place
     sheet: Plan2
-    properties:
+    members:
     - {title: C04, property: description}
     - {converter: marxls.Address, property: address}
   - 
@@ -31,15 +31,16 @@ mappings:
     name: placeTags
     className: marxls.PlaceTags
     sheet: Plan1
-    properties:
+    members:
     - {title: C02, property: tags}
-    - {title: C03, converter: marxls.Place, property: place}
+    # se mappedBy não for informado usa a property do converter que tiver o mesmo title/column!
+    - {title: C03, converter: marxls.Place, property: places, mappedBy: description}
   -
     # bean com referências simples
     name: mainEntity
     className: marxls.MainEntity
     sheet: Plan1
-    properties:
+    members:
     - {converter: marxls.SimpleEntity, property: simpleEntity}
     - {converter: marxls.PlaceTags, property: placeTags}
     
