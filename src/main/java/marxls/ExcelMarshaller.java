@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -42,7 +44,7 @@ public class ExcelMarshaller {
 		this.repository = new HashMap<>();
 		this.separator = separator;
 	}
-	
+
 	private ExcelMarshaller(File yaml) throws JsonParseException, JsonMappingException, IOException {
 		this(yaml, ";");
 	}
@@ -91,10 +93,35 @@ public class ExcelMarshaller {
 		}
 	}
 
-	private final void setProperty(Object bean, String name, Object value) {
+	@SuppressWarnings("unchecked")
+	private <T> T newCollectionInstance(Class<T> klass) {
+		T t = null;
 		try {
-			if (Arrays.asList(PropertyUtils.getPropertyType(bean, name).getInterfaces()).contains(Collection.class)) {
-				// TODO
+			t = (T) klass.newInstance();
+		} catch (NullPointerException | InstantiationException | IllegalAccessException e) {
+			// BeanContext, BeanContextServices, BlockingDeque<E>, BlockingQueue<E>,
+			// Deque<E>, List<E>, NavigableSet<E>, Queue<E>, Set<E>, SortedSet<E>,
+			// TransferQueue<E>
+			if (Arrays.asList(klass.getInterfaces()).contains(List.class)) {
+				t = (T) newCollectionInstance(ArrayList.class);
+			}
+		}
+		return t;
+	}
+
+	@SuppressWarnings("unchecked")
+	private final <T, V> void setProperty(T bean, String name, V value) {
+		try {
+			Class<T> klass = (Class<T>) PropertyUtils.getPropertyType(bean, name);
+			if (Arrays.asList(klass.getInterfaces()).contains(Collection.class)) {
+				Collection<V> c = (Collection<V>) PropertyUtils.getProperty(bean, name);
+				if (c == null) {
+					c = (Collection<V>) newCollectionInstance(klass);
+					PropertyUtils.setProperty(bean, name, c);
+				}
+				for (String o : value.toString().split(this.separator)) {
+					PropertyUtils.setIndexedProperty(bean, name, c.size(), o);
+				}
 			} else {
 				PropertyUtils.setProperty(bean, name, value);
 			}
