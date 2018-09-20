@@ -6,6 +6,7 @@ import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
@@ -133,9 +134,20 @@ public class ExcelMarshaller {
 					} else {
 						// TODO tratar erros que podem ocorrer se mappedBy ou coverter não existirem
 						Class<?> key = getClass(converter);
+						if (key == null) {
+							throw new IllegalArgumentException("Classe " + converter + " não é um Bean");
+						}
+						/*repository.get(key).values().stream().filter(v -> {
+							try {
+								return o.trim().equals(PropertyUtils.getProperty(v, mappedBy).toString().trim());
+							} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+								throw new IllegalArgumentException("Mapeamento " + mappedBy + " da classe " + converter + " não encontrado.");
+							}
+						}).forEach(v -> c.add((V) v));*/
+						
 						for (Object v : repository.get(key).values()) {
 							if (o.trim().equals(PropertyUtils.getProperty(v, mappedBy).toString().trim())) {
-								c.add((V) o);
+								c.add((V) v);
 							}
 						}
 					}
