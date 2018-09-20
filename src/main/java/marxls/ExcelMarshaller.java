@@ -1,5 +1,6 @@
 package marxls;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 import java.io.File;
@@ -8,15 +9,19 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableSet;
+import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Function;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -82,11 +87,13 @@ public class ExcelMarshaller {
 			System.out.println("Lendo " + line + ", " + column(sheet, member) + ": " + member.getTitle() + ", "
 					+ member.getProperty());
 			if (member.isReferenceBased()) {
-				sheet.read(line, column(sheet, member), converter(member),
-						value -> setProperty(entity, member.getProperty(), value));
+				sheet.read(line, column(sheet, member), converter(member), value -> setProperty(entity,
+						member.getProperty(), value, member.getMappedBy(), member.getConverter()));
 			} else {
+				// TODO ver se é possível usar o bean como converter para retirar o if
 				Class<?> key = getClass(member.getConverter());
-				setProperty(entity, member.getProperty(), repository.get(key).get(line));
+				setProperty(entity, member.getProperty(), repository.get(key).get(line), member.getMappedBy(),
+						member.getConverter());
 			}
 		} catch (IllegalArgumentException | NullPointerException e) {
 			System.out.println("A coluna referente à " + member.getProperty() + " não foi encontrada.");
@@ -99,18 +106,24 @@ public class ExcelMarshaller {
 		try {
 			t = (T) klass.newInstance();
 		} catch (NullPointerException | InstantiationException | IllegalAccessException e) {
-			// BeanContext, BeanContextServices, BlockingDeque<E>, BlockingQueue<E>,
-			// Deque<E>, List<E>, NavigableSet<E>, Queue<E>, Set<E>, SortedSet<E>,
-			// TransferQueue<E>
-			if (Arrays.asList(klass.getInterfaces()).contains(List.class)) {
-				t = (T) newCollectionInstance(ArrayList.class);
+			if (NavigableSet.class.equals(klass) || Set.class.equals(klass) || SortedSet.class.equals(klass)
+					|| Arrays.asList(klass.getInterfaces()).contains(NavigableSet.class)
+					|| Arrays.asList(klass.getInterfaces()).contains(Set.class)
+					|| Arrays.asList(klass.getInterfaces()).contains(SortedSet.class)) {
+				t = (T) newCollectionInstance(TreeSet.class);
+			} else if (List.class.equals(klass) || Queue.class.equals(klass) || Deque.class.equals(klass)
+					|| Arrays.asList(klass.getInterfaces()).contains(List.class)
+					|| Arrays.asList(klass.getInterfaces()).contains(Queue.class)
+					|| Arrays.asList(klass.getInterfaces()).contains(Deque.class)) {
+				t = (T) newCollectionInstance(LinkedList.class);
 			}
 		}
 		return t;
 	}
 
 	@SuppressWarnings("unchecked")
-	private final <T, V> void setProperty(T bean, String name, V value) {
+	private final <T, V> void setProperty(final T bean, final String name, final V value, final String mappedBy,
+			final String converter) {
 		try {
 			Class<T> klass = (Class<T>) PropertyUtils.getPropertyType(bean, name);
 			if (Arrays.asList(klass.getInterfaces()).contains(Collection.class)) {
@@ -120,7 +133,17 @@ public class ExcelMarshaller {
 					PropertyUtils.setProperty(bean, name, c);
 				}
 				for (String o : value.toString().split(this.separator)) {
-					PropertyUtils.setIndexedProperty(bean, name, c.size(), o);
+					if (isBlank(mappedBy)) {
+						c.add((V) o);
+					} else {
+						// TODO tratar erros que podem ocorrer se mappedBy ou coverter não existirem
+						Class<?> key = getClass(converter);
+						for (Object v : repository.get(key).values()) {
+							if (o.trim().equals(PropertyUtils.getProperty(v, mappedBy).toString().trim())) {
+								c.add((V) o);
+							}
+						}
+					}
 				}
 			} else {
 				PropertyUtils.setProperty(bean, name, value);
@@ -148,12 +171,12 @@ public class ExcelMarshaller {
 						return (T) klazz.getMethod("valueOf", String.class).invoke(klazz, a);
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
 							| NoSuchMethodException | SecurityException e) {
-						return null;
+						throw new IllegalArgumentException("Unable to find enum " + member.getConverter());
 					}
 				};
-			} else {
+			} else /* if (isJavaBean(klazz)) */ {
 				// TODO ???
-				return null;
+				return a -> (T) a.toString();
 			}
 		} else if ("integer".equals(member.getConverter())) {
 			return a -> (T) Integer.valueOf(a);

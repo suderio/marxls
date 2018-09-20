@@ -51,8 +51,18 @@ public class ExcelMarshallerTest {
 	@Test
 	public void testMemberWithMultiValue() {
 		Map<Integer, PlaceTags> p = marshaller.get(PlaceTags.class);
-		assertThat(p.size(), equalTo(2));
-		assertThat(p.get(2).getPlaces().size(), equalTo(2));
-		assertThat(p.get(2).getTags().size(), equalTo(2));
+		assertThat(p.size(), equalTo(3));
+		assertThat(p.get(4).getTags().size(), equalTo(2));
+		assertThat(p.get(5).getTags().size(), equalTo(1));
+		assertThat(p.get(6).getTags().size(), equalTo(0));
+		assertThat(p.get(4).getPlaces().size(), equalTo(2));
+		assertThat(p.get(5).getPlaces().size(), equalTo(1));
+		assertThat(p.get(6).getPlaces().size(), equalTo(0));
+	}
+	
+	@Test
+	public void testMemberWithSimpleValue() {
+		Map<Integer, MainEntity> p = marshaller.get(MainEntity.class);
+		assertThat(p.size(), equalTo(3));
 	}
 }
