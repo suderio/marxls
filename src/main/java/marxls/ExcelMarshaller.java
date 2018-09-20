@@ -6,9 +6,6 @@ import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
@@ -22,11 +19,9 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.function.Function;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DateUtil;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -87,13 +82,11 @@ public class ExcelMarshaller {
 			System.out.println("Lendo " + line + ", " + column(sheet, member) + ": " + member.getTitle() + ", "
 					+ member.getProperty());
 			if (member.isReferenceBased()) {
-				sheet.read(line, column(sheet, member), converter(member), value -> setProperty(entity,
-						member.getProperty(), value, member.getMappedBy(), member.getConverter()));
+				sheet.read(line, column(sheet, member), ConverterFactory.converter(member),
+						value -> setProperty(entity, member, value));
 			} else {
-				// TODO ver se é possível usar o bean como converter para retirar o if
 				Class<?> key = getClass(member.getConverter());
-				setProperty(entity, member.getProperty(), repository.get(key).get(line), member.getMappedBy(),
-						member.getConverter());
+				setProperty(entity, member, repository.get(key).get(line));
 			}
 		} catch (IllegalArgumentException | NullPointerException e) {
 			System.out.println("A coluna referente à " + member.getProperty() + " não foi encontrada.");
@@ -122,8 +115,10 @@ public class ExcelMarshaller {
 	}
 
 	@SuppressWarnings("unchecked")
-	private final <T, V> void setProperty(final T bean, final String name, final V value, final String mappedBy,
-			final String converter) {
+	private final <T, V> void setProperty(final T bean, final Member member, final V value) {
+		final String name = member.getProperty();
+		final String mappedBy = member.getMappedBy();
+		final String converter = member.getConverter();
 		try {
 			Class<T> klass = (Class<T>) PropertyUtils.getPropertyType(bean, name);
 			if (Arrays.asList(klass.getInterfaces()).contains(Collection.class)) {
@@ -158,38 +153,6 @@ public class ExcelMarshaller {
 			return Class.forName(className);
 		} catch (ClassNotFoundException | NullPointerException e) {
 			return null;
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private final <T> Function<String, T> converter(Member member) {
-		Class<?> klazz;
-		if ((klazz = getClass(member.getConverter())) != null) {
-			if (klazz.isEnum()) {
-				return a -> {
-					try {
-						return (T) klazz.getMethod("valueOf", String.class).invoke(klazz, a);
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-							| NoSuchMethodException | SecurityException e) {
-						throw new IllegalArgumentException("Unable to find enum " + member.getConverter());
-					}
-				};
-			} else /* if (isJavaBean(klazz)) */ {
-				// TODO ???
-				return a -> (T) a.toString();
-			}
-		} else if ("integer".equals(member.getConverter())) {
-			return a -> (T) Integer.valueOf(a);
-		} else if ("date".equals(member.getConverter())) {
-			return value -> (T) DateUtil.getJavaDate(Double.valueOf(value), true);
-		} else if ("decimal(2)".equals(member.getConverter())) {
-			return a -> (T) new BigDecimal(a).setScale(2, RoundingMode.HALF_UP);
-		} else if ("decimal(8)".equals(member.getConverter())) {
-			return a -> (T) new BigDecimal(a).setScale(8, RoundingMode.HALF_UP);
-		} else if ("double".equals(member.getConverter())) {
-			return a -> (T) Double.valueOf(a);
-		} else {
-			return a -> (T) a.toString();
 		}
 	}
 
