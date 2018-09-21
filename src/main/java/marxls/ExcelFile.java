@@ -44,13 +44,13 @@ public class ExcelFile implements AutoCloseable {
 		}
 	}
 
-	public <T> T read(String sheetName, int line, int column, Function<String, T> function, Consumer<T> action) {
+	public <T> T read(String sheetName, int line, int column, Converter<T> function, Consumer<T> action) {
 		T result = read(sheetName, line, column, function);
 		action.accept(result);
 		return result;
 	}
 
-	public <T> T read(String sheetName, int line, int column, Function<String, T> function) {
+	public <T> T read(String sheetName, int line, int column, Converter<T> function) {
 		String result = read(sheetName, line, column);
 		try {
 			return function.apply(result);
@@ -182,11 +182,11 @@ public class ExcelFile implements AutoCloseable {
 			this.file = file;
 		}
 
-		public <T> T read(int line, int column, Function<String, T> function, Consumer<T> action) {
+		public <T> T read(int line, int column, Converter<T> function, Consumer<T> action) {
 			return file.read(sheet, line, column, function, action);
 		}
 
-		public <T> T read(int line, int column, Function<String, T> function) {
+		public <T> T read(int line, int column, Converter<T> function) {
 			return file.read(sheet, line, column, function);
 		}
 
