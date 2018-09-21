@@ -6,7 +6,6 @@ import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
@@ -28,6 +27,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.google.common.base.Optional;
 
 import marxls.ExcelFile.ExcelSheet;
 
@@ -80,8 +80,6 @@ public class ExcelMarshaller {
 
 	private final void setMember(ExcelSheet sheet, int line, Object entity, Member member) {
 		try {
-			System.out.println("Lendo " + line + ", " + column(sheet, member) + ": " + member.getTitle() + ", "
-					+ member.getProperty());
 			if (member.isReferenceBased()) {
 				sheet.read(line, column(sheet, member), ConverterFactory.converter(member),
 						value -> setProperty(entity, member, value));
@@ -128,26 +126,26 @@ public class ExcelMarshaller {
 					c = (Collection<V>) newCollectionInstance(klass);
 					PropertyUtils.setProperty(bean, name, c);
 				}
+				if (value == null) {
+					return;
+				}
 				for (String o : value.toString().split(this.separator)) {
 					if (isBlank(mappedBy)) {
 						c.add((V) o);
 					} else {
-						// TODO tratar erros que podem ocorrer se mappedBy ou coverter não existirem
 						Class<?> key = getClass(converter);
 						if (key == null) {
 							throw new IllegalArgumentException("Classe " + converter + " não é um Bean");
 						}
-						/*repository.get(key).values().stream().filter(v -> {
-							try {
-								return o.trim().equals(PropertyUtils.getProperty(v, mappedBy).toString().trim());
-							} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-								throw new IllegalArgumentException("Mapeamento " + mappedBy + " da classe " + converter + " não encontrado.");
-							}
-						}).forEach(v -> c.add((V) v));*/
-						
 						for (Object v : repository.get(key).values()) {
-							if (o.trim().equals(PropertyUtils.getProperty(v, mappedBy).toString().trim())) {
-								c.add((V) v);
+							try {
+								String element = PropertyUtils.getProperty(v, mappedBy).toString().trim();
+								if (o.trim().equals(element)) {
+									c.add((V) v);
+								}
+							} catch (NullPointerException e) {
+								throw new IllegalArgumentException(
+										"Mapeamento " + mappedBy + " da classe " + converter + " não encontrado.");
 							}
 						}
 					}
