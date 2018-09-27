@@ -7,7 +7,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -18,7 +17,7 @@ public class ExcelMarshallerTest {
 	private ExcelMarshaller marshaller;
 
 	@Before
-	public void setup() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public void setup() {
 		try {
 			marshaller = ExcelMarshaller.create(new File(this.getClass().getResource("exemplo.yml").toURI()));
 			marshaller.read(new File(this.getClass().getResource("Pasta2.xlsx").toURI()));

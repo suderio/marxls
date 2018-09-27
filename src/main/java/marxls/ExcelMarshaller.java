@@ -4,7 +4,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,15 +18,16 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.google.common.base.Optional;
 
 import marxls.ExcelFile.ExcelSheet;
 
@@ -37,32 +37,39 @@ public class ExcelMarshaller {
 	private Set<String> sheets;
 	private Map<Class<?>, Map<Integer, Object>> repository;
 	private String separator;
+	private Predicate<Row> rowFilter;
+	private boolean skipTitle;
 
-	private ExcelMarshaller(File yaml, String separator) throws JsonParseException, JsonMappingException, IOException {
+	private ExcelMarshaller(File yaml, String separator, Predicate<Row> rowFilter, boolean skipTitle) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 		this.mappings = mapper.readValue(yaml, Mappings.class);
 		this.sheets = new HashSet<>();
 		this.repository = new HashMap<>();
 		this.separator = separator;
+		this.rowFilter = rowFilter;
+		this.skipTitle = skipTitle;
 	}
 
-	private ExcelMarshaller(File yaml) throws JsonParseException, JsonMappingException, IOException {
-		this(yaml, ";");
+	private ExcelMarshaller(File yaml, Predicate<Row> rowFilter, boolean skipTitle) throws JsonParseException, JsonMappingException, IOException {
+		this(yaml, ";", rowFilter, skipTitle);
 	}
 
 	public static ExcelMarshaller create(File file) throws JsonParseException, JsonMappingException, IOException {
-		ExcelMarshaller marshaller = new ExcelMarshaller(file);
+		return create(file, any -> true, true);
+	}
+	
+	public static ExcelMarshaller create(File file, Predicate<Row> rowFilter, boolean skipTitle) throws JsonParseException, JsonMappingException, IOException {
+		ExcelMarshaller marshaller = new ExcelMarshaller(file, rowFilter, skipTitle);
 		for (Mapping mapping : marshaller.mappings.getMappings()) {
 			marshaller.sheets.add(mapping.getSheet());
 		}
 		return marshaller;
 	}
 
-	public void read(File xls) throws FileNotFoundException, IOException, ClassNotFoundException,
-			InstantiationException, IllegalAccessException {
+	public void read(File xls) {
+		ExcelSheet sheet;
+		Class<?> klazz = null;
 		try (ExcelFile file = new ExcelFile(xls)) {
-			ExcelSheet sheet;
-			Class<?> klazz;
 			for (Mapping mapping : this.mappings.getMappings()) {
 				sheet = file.sheet(mapping.getSheet());
 				klazz = Class.forName(mapping.getClassName());
@@ -75,6 +82,10 @@ public class ExcelMarshaller {
 					repository.get(klazz).put(line, entity);
 				}
 			}
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Arquivo excel não encontrado.", e);
+		} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+			throw new IllegalArgumentException("Erro ao instanciar a classe " + klazz.getName(), e);
 		}
 	}
 
@@ -180,8 +191,9 @@ public class ExcelMarshaller {
 	}
 
 	private final SortedSet<Integer> getLines(ExcelSheet sheet) {
-		SortedSet<Integer> rows = sheet.getRows(row -> row.getFirstCellNum() >= 0);
-		return rows.isEmpty() ? rows : rows.tailSet(rows.first() + 1);
+		SortedSet<Integer> rows = sheet.getRows(row -> row.getFirstCellNum() >= 0 && rowFilter.test(row));
+		
+		return rows.isEmpty() ? rows : skipTitle ? rows.tailSet(rows.first() + 1) : rows;
 	}
 
 	@SuppressWarnings("unchecked")
