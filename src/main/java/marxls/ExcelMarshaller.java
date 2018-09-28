@@ -5,6 +5,7 @@ import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
@@ -39,6 +40,7 @@ public class ExcelMarshaller {
 	private String separator;
 	private Predicate<Row> rowFilter;
 	private boolean skipTitle;
+	private List<Predicate<Object>> entityPredicates = new ArrayList<>();
 
 	private ExcelMarshaller(File yaml, String separator, Predicate<Row> rowFilter, boolean skipTitle) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -79,6 +81,7 @@ public class ExcelMarshaller {
 					for (Member member : mapping.getMembers()) {
 						setMember(sheet, line, entity, member);
 					}
+					if (entityPredicates.stream().allMatch(predicate -> predicate.test(entity)))
 					repository.get(klazz).put(line, entity);
 				}
 			}
@@ -199,6 +202,10 @@ public class ExcelMarshaller {
 	@SuppressWarnings("unchecked")
 	public final <T> Map<Integer, T> get(Class<T> klazz) {
 		return (Map<Integer, T>) repository.get(klazz);
+	}
+
+	public void addBeanFilter(Predicate<Object> predicate) {
+		entityPredicates.add(predicate);
 	}
 
 }
