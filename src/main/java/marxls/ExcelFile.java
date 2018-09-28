@@ -51,7 +51,7 @@ public class ExcelFile implements AutoCloseable {
 		String result = read(sheetName, line, column);
 		try {
 			return function.apply(result);
-		} catch (NullPointerException | NumberFormatException e) {
+		} catch (NullPointerException e) {
 			return null;
 		}
 	}
