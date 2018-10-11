@@ -38,6 +38,8 @@ public final class ConverterFactory {
 		Matcher m;
 		if ("integer".equals(type)) {
 			return a -> (T) Integer.valueOf(a);
+		} else if ("boolean".equals(type)){
+			return a -> (T) Boolean.valueOf(a);
 		} else if ("date".equals(type)) {
 			return value -> (T) DateUtil.getJavaDate(Double.valueOf(value), true);
 		} else if (type != null && (m = DECIMAL.matcher(type)).matches()) {
