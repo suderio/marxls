@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class Mapping {
-	private String name;
-	private String sheet;
-	private String className;
-	private List<Member> members;
+  private String name;
+  private String sheet;
+  private String className;
+  private List<Member> members;
 }

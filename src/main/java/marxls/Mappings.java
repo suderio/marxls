@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class Mappings {
-	private List<Mapping> mappings;
+  private List<Mapping> mappings;
 }

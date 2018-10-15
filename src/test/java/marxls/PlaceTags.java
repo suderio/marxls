@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class PlaceTags {
-	private List<String> tags;
-	private List<Place> places;
+  private List<String> tags;
+  private List<Place> places;
 }

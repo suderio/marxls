@@ -7,9 +7,9 @@ import lombok.Data;
 
 @Data
 public class SimpleEntity {
-	private Date date;
-	private Integer integer;
-	private BigDecimal decimal;
-	private Double doubleNumber;
-	private String text;
+  private Date date;
+  private Integer integer;
+  private BigDecimal decimal;
+  private Double doubleNumber;
+  private String text;
 }
