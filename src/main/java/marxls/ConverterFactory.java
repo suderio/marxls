@@ -35,25 +35,35 @@ public final class ConverterFactory {
 
   @SuppressWarnings("unchecked")
   private static final <T> Converter<T> converter(String type) {
-    Matcher m;
-    if ("integer".equals(type)) {
-      return a -> (T) Integer.valueOf(a);
-    } else if ("long".equals(type)) {
-      return a -> (T) Long.valueOf(a);
-    } else if ("boolean".equals(type)) {
-      return a -> (T) Boolean.valueOf(a);
-    } else if ("date".equals(type)) {
-      return value -> (T) DateUtil.getJavaDate(Double.valueOf(value), true);
-    } else if (type != null && (m = DECIMAL.matcher(type)).matches()) {
-      int scale = Integer.valueOf(m.group(1));
-      return a -> (T) new BigDecimal(a).setScale(scale, RoundingMode.HALF_UP);
-    } else if ("float".equals(type)) {
-      return a -> (T) Float.valueOf(a);
-    } else if ("double".equals(type)) {
-      return a -> (T) Double.valueOf(a);
-    } else {
-      return a -> (T) a.toString();
+    switch (type == null ? "" : type) {
+      case "byte":
+        return a -> (T) Byte.valueOf(a);
+      case "short":
+        return a -> (T) Short.valueOf(a);
+      case "integer":
+        return a -> (T) Integer.valueOf(a);
+      case "long":
+        return a -> (T) Long.valueOf(a);
+      case "boolean":
+        return a -> (T) Boolean.valueOf(a);
+      case "date":
+        return a -> (T) DateUtil.getJavaDate(Double.valueOf(a), true);
+      case "float":
+        return a -> (T) Float.valueOf(a);
+      case "double":
+        return a -> (T) Double.valueOf(a);
+      case "char":
+        return a -> (T) Character.valueOf(a.charAt(0));
+      default:
+        Matcher m = DECIMAL.matcher(type);
+        if (m.matches()) {
+          int scale = Integer.valueOf(m.group(1));
+          return a -> (T) new BigDecimal(a).setScale(scale, RoundingMode.HALF_UP);
+        } else {
+          return a -> (T) a.toString();
+        }
     }
+
   }
 
   public static final <T> Converter<T> converter(Member member) {
