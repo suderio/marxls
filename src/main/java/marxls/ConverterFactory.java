@@ -35,7 +35,8 @@ public final class ConverterFactory {
 
   @SuppressWarnings("unchecked")
   private static final <T> Converter<T> converter(String type) {
-    switch (type == null ? "" : type) {
+    final String nonNullType = type == null ? "" : type;
+    switch (nonNullType) {
       case "byte":
         return a -> (T) Byte.valueOf(a);
       case "short":
@@ -55,7 +56,7 @@ public final class ConverterFactory {
       case "char":
         return a -> (T) Character.valueOf(a.charAt(0));
       default:
-        Matcher m = DECIMAL.matcher(type);
+        Matcher m = DECIMAL.matcher(nonNullType);
         if (m.matches()) {
           int scale = Integer.valueOf(m.group(1));
           return a -> (T) new BigDecimal(a).setScale(scale, RoundingMode.HALF_UP);

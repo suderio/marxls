@@ -36,11 +36,12 @@ import marxls.ExcelFile.ExcelSheet;
 
 public class ExcelMarshaller {
 
-  private static final Logger LOG = LoggerFactory.getLogger(ExcelMarshaller.class);
+  private static final Logger LOG = LoggerFactory.getLogger("Marshaller");
 
   private Mappings mappings;
   private Set<String> sheets;
   private Map<Class<?>, Map<Integer, Object>> repository;
+  private Map<String, Map<Integer, Object>> mappingRepository;
   private String separator;
   private Predicate<Row> rowFilter;
   private boolean skipTitle;
@@ -52,6 +53,7 @@ public class ExcelMarshaller {
     this.mappings = mapper.readValue(yaml, Mappings.class);
     this.sheets = new HashSet<>();
     this.repository = new HashMap<>();
+    this.mappingRepository = new HashMap<>();
     this.separator = separator;
     this.rowFilter = rowFilter;
     this.skipTitle = skipTitle;
@@ -84,13 +86,16 @@ public class ExcelMarshaller {
         sheet = file.sheet(mapping.getSheet());
         klazz = Class.forName(mapping.getClassName());
         repository.put(klazz, new HashMap<>());
+        mappingRepository.put(mapping.getName(), new HashMap<>());
         for (int line : getLines(sheet)) {
           Object entity = klazz.newInstance();
           for (Member member : mapping.getMembers()) {
             setMember(sheet, line, entity, member);
           }
-          if (entityPredicates.stream().allMatch(predicate -> predicate.test(entity)))
+          if (entityPredicates.stream().allMatch(predicate -> predicate.test(entity))) {
             repository.get(klazz).put(line, entity);
+            mappingRepository.get(mapping.getName()).put(line, entity);
+          }
         }
       }
     } catch (IOException e) {
@@ -106,8 +111,9 @@ public class ExcelMarshaller {
         sheet.read(line, column(sheet, member), ConverterFactory.converter(member),
             value -> setProperty(entity, member, value));
       } else {
-        Class<?> key = getClass(member.getConverter());
-        setProperty(entity, member, repository.get(key).get(line));
+        //Class<?> key = getClass(member.getConverter());
+        // setProperty(entity, member, repository.get(key).get(line));
+        setProperty(entity, member, mappingRepository.get(member.getConverter()).get(line));
       }
     } catch (IllegalArgumentException e) {
       LOG.debug("A coluna referente à " + member.getProperty() + " não foi encontrada.");
@@ -154,6 +160,12 @@ public class ExcelMarshaller {
         if (value == null) {
           return;
         }
+        // embedded
+        if (!member.isReferenceBased()) {
+          c.add(value);
+          return;
+        }
+        // multivalued reference
         for (String o : value.toString().split(this.separator)) {
           if (isBlank(mappedBy)) {
             c.add((V) o);
