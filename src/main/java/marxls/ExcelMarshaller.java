@@ -1,6 +1,5 @@
 package marxls;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 import java.io.File;
@@ -15,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
@@ -89,6 +90,9 @@ public class ExcelMarshaller {
         mappingRepository.put(mapping.getName(), new HashMap<>());
         for (int line : getLines(sheet)) {
           Object entity = klazz.newInstance();
+          if (mapping.getName().equals("financiamento")) {
+            System.out.println("#");
+          }
           for (Member member : mapping.getMembers()) {
             setMember(sheet, line, entity, member);
           }
@@ -167,18 +171,29 @@ public class ExcelMarshaller {
         }
         // multivalued reference
         for (String o : value.toString().split(this.separator)) {
-          if (isBlank(mappedBy)) {
+          if (StringUtils.isBlank(mappedBy)) {
             c.add((V) o);
           } else {
             /*
-            Class<?> key = getClass(converter);
-            if (key == null) {
-              throw new IllegalArgumentException("Classe " + converter + " não é um Bean");
-            }
-            */
+             * Class<?> key = getClass(converter); if (key == null) { throw new
+             * IllegalArgumentException("Classe " + converter + " não é um Bean"); }
+             */
             for (Object v : mappingRepository.get(converter).values()) {
               try {
-                String element = PropertyUtils.getProperty(v, mappedBy).toString().trim();
+                String property = mappedBy;
+                Optional<Mapping> optionalMapping = mappings.getMappings().stream()
+                    .filter(mapping -> mapping.getName().equals(converter)).findFirst();
+                if (optionalMapping.isPresent()) {
+                  Member m = optionalMapping.get().getMember(mappedBy);
+                  if (m != null) {
+                    property = m.getProperty();
+                  } else {
+                    // TODO ?
+                  }
+                } else {
+                  // TODO?
+                }
+                String element = PropertyUtils.getProperty(v, property).toString().trim();
                 if (o.trim().equals(element)) {
                   c.add((V) v);
                 }
