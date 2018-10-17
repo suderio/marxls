@@ -170,11 +170,13 @@ public class ExcelMarshaller {
           if (isBlank(mappedBy)) {
             c.add((V) o);
           } else {
+            /*
             Class<?> key = getClass(converter);
             if (key == null) {
               throw new IllegalArgumentException("Classe " + converter + " não é um Bean");
             }
-            for (Object v : repository.get(key).values()) {
+            */
+            for (Object v : mappingRepository.get(converter).values()) {
               try {
                 String element = PropertyUtils.getProperty(v, mappedBy).toString().trim();
                 if (o.trim().equals(element)) {

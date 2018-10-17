@@ -34,7 +34,7 @@ mappings:
     members:
     - {title: C02, property: tags}
     # se mappedBy não for informado usa a property do converter que tiver o mesmo title/column!
-    - {title: C03, converter: marxls.Place, property: places, mappedBy: description}
+    - {title: C03, converter: place, property: places, mappedBy: description}
   -
     # bean com referências simples
     name: mainEntity
