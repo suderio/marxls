@@ -36,6 +36,11 @@ public final class ConverterFactory {
   @SuppressWarnings("unchecked")
   private static final <T> Converter<T> converter(String type) {
     final String nonNullType = type == null ? "" : type;
+    Matcher m = DECIMAL.matcher(nonNullType);
+    if (m.matches()) {
+      int scale = Integer.valueOf(m.group(1));
+      return a -> (T) new BigDecimal(a).setScale(scale, RoundingMode.HALF_UP);
+    }
     switch (nonNullType) {
       case "byte":
         return a -> (T) Byte.valueOf(a);
@@ -55,16 +60,10 @@ public final class ConverterFactory {
         return a -> (T) Double.valueOf(a);
       case "char":
         return a -> (T) Character.valueOf(a.charAt(0));
+      case "string":
       default:
-        Matcher m = DECIMAL.matcher(nonNullType);
-        if (m.matches()) {
-          int scale = Integer.valueOf(m.group(1));
-          return a -> (T) new BigDecimal(a).setScale(scale, RoundingMode.HALF_UP);
-        } else {
-          return a -> (T) a.toString();
-        }
+        return a -> (T) a.toString();
     }
-
   }
 
   public static final <T> Converter<T> converter(Member member) {
