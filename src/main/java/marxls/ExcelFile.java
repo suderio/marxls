@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -15,7 +16,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -24,6 +24,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.google.common.collect.Streams;
 
 public class ExcelFile implements AutoCloseable {
+  private static final DecimalFormat DECIMAL = new DecimalFormat();
+  static {
+    DECIMAL.setMaximumFractionDigits(340);
+    DECIMAL.setMaximumIntegerDigits(309);
+    DECIMAL.setMinimumFractionDigits(0);
+    DECIMAL.setMinimumIntegerDigits(0);
+    DECIMAL.setGroupingUsed(false);
+  }
   private XSSFWorkbook workbook;
   private Map<String, Sheet> sheets;
 
@@ -122,7 +130,7 @@ public class ExcelFile implements AutoCloseable {
       case STRING:
         return cell.getStringCellValue();
       case NUMERIC:
-        return StringUtils.removeEnd(Double.toString(cell.getNumericCellValue()), ".0");
+        return DECIMAL.format(cell.getNumericCellValue());
       case BOOLEAN:
         return Boolean.toString(cell.getBooleanCellValue());
       case _NONE:
