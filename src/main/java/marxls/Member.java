@@ -11,6 +11,7 @@ public class Member {
   private String converter;
   private String property;
   private String mappedBy;
+  private boolean mapped = true;
 
   public boolean isTitleBased() {
     return isNotBlank(title);

@@ -25,6 +25,7 @@ mappings:
     sheet: Plan2
     members:
     - {title: C04, property: description}
+    - {title: C05, property: index, mapped: false}
     - {converter: marxls.Address, property: address}
   - 
     # múltiplos valores & bean com referências múltiplas
