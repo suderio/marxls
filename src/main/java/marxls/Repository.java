@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableSet;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 import java.util.function.Predicate;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -22,18 +21,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
 public class Repository {
   private static final Logger LOG = LoggerFactory.getLogger("Marshaller");
-  private Map<Mapping, Map<Integer, Object>> mappings = new HashMap<>();
+  private Table<Mapping, Integer, Object> table = HashBasedTable.create();
+  private Table<Member, Integer, String> nonMappedMembers = HashBasedTable.create();
   private List<Predicate<Object>> entityPredicates = new ArrayList<>();
 
   public void put(Mapping mapping, int line, Object value) {
-    if (mappings.get(mapping) == null) {
-      mappings.put(mapping, new HashMap<>());
-    }
-
     if (entityPredicates.stream().allMatch(predicate -> predicate.test(value))) {
-      mappings.get(mapping).put(line, value);
+      table.put(mapping, line, value);
     }
   }
 
@@ -41,16 +40,12 @@ public class Repository {
     if (name == null) {
       throw new IllegalArgumentException("Nome não pode ser nulo");
     }
-    for (Entry<Mapping, Map<Integer, Object>> entry : mappings.entrySet()) {
-      if (name.equals(entry.getKey().getName())) {
-        return entry.getValue().get(line);
-      }
-    }
-    return null;
+    return table.column(line).entrySet().stream()
+        .filter(entry -> name.equals(entry.getKey().getName())).findFirst().orElse(null);
   }
 
   public Map<Integer, Object> get(String name) {
-    for (Entry<Mapping, Map<Integer, Object>> entry : mappings.entrySet()) {
+    for (Entry<Mapping, Map<Integer, Object>> entry : table.rowMap().entrySet()) {
       if (name.equals(entry.getKey().getName())) {
         return entry.getValue();
       }
@@ -59,7 +54,7 @@ public class Repository {
   }
 
   public Map<Integer, Object> get(Class<?> klazz) {
-    for (Entry<Mapping, Map<Integer, Object>> entry : mappings.entrySet()) {
+    for (Entry<Mapping, Map<Integer, Object>> entry : table.rowMap().entrySet()) {
       if (klazz.getName().equals(entry.getKey().getClassName())) {
         return entry.getValue();
       }
@@ -67,13 +62,13 @@ public class Repository {
     return null;
   }
 
-  public void add(Predicate<Object> predicate) {
+  public void addFilter(Predicate<Object> predicate) {
     entityPredicates.add(predicate);
   }
 
   @SuppressWarnings("unchecked")
-  public final <T, V> void set(final T bean, final Member member, final V value,
-      String separator, List<Mapping> mappings) {
+  public final <T, V> void set(final T bean, final Member member, final V value, String separator,
+      List<Mapping> mappings) {
     final String name = member.getProperty();
     final String mappedBy = member.getMappedBy();
     final String converter = member.getConverter();
@@ -111,7 +106,7 @@ public class Repository {
                     // TODO ?
                   }
                 } else {
-                  // TODO?
+                  // TODO ?
                 }
                 String element = PropertyUtils.getProperty(v, property).toString().trim();
                 if (o.trim().equals(element)) {
@@ -153,5 +148,9 @@ public class Repository {
       }
     }
     return t;
+  }
+
+  public <T, V> void set(Member member, int line, V value) {
+    nonMappedMembers.put(member, line, value.toString());
   }
 }

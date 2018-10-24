@@ -87,14 +87,19 @@ public class ExcelMarshaller {
   }
 
   private final void setMember(ExcelSheet sheet, int line, Object entity, Member member) {
+
     try {
-      if (member.isReferenceBased()) {
-        sheet.read(line, column(sheet, member), ConverterFactory.converter(member),
-            value -> repo.set(entity, member, value, this.separator,
-                this.mappings.getMappings()));
+      if (member.isMapped()) {
+        if (member.isReferenceBased()) {
+          sheet.read(line, column(sheet, member), ConverterFactory.converter(member), value -> repo
+              .set(entity, member, value, this.separator, this.mappings.getMappings()));
+        } else {
+          repo.set(entity, member, repo.get(member.getConverter(), line), this.separator,
+              this.mappings.getMappings());
+        }
       } else {
-        repo.set(entity, member, repo.get(member.getConverter(), line), this.separator,
-            this.mappings.getMappings());
+        sheet.read(line, column(sheet, member), value -> value,
+            value -> repo.set(member, line, value));
       }
     } catch (IllegalArgumentException e) {
       LOG.debug("A coluna referente à " + member.getProperty() + " não foi encontrada.");
@@ -128,7 +133,7 @@ public class ExcelMarshaller {
   }
 
   public void addBeanFilter(Predicate<Object> predicate) {
-    repo.add(predicate);
+    repo.addFilter(predicate);
   }
 
 }
