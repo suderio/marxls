@@ -1,0 +1,2 @@
+processClover (  {"children":["marxls/"],"name":"Clover database Wed Oct 24 2018 21:17:16 BRT","stats":{"AvgMethodComplexity":2.56,"Complexity":128,"ErroneousTests":0,"FailingTests":0,"FilteredElements":0,"PassingTests":0,"PcErroneousTests":-1,"PcFailingTests":-1,"PcPassingTests":-1,"TestExecutionTime":0,"Tests":0,"TotalChildren":1,"TotalPercentageCovered":75.21368,"TotalStatements":231,"UncoveredElements":87},"title":"marxls 1.0.0-SNAPSHOT"}
+ ); 

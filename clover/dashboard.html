@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    
+    
+    <link rel="SHORTCUT ICON" href="img/clover.ico" />
+
+    <link rel="stylesheet" href="aui/css/aui.min.css" media="all"/>
+    <link rel="stylesheet" href="aui/css/aui-experimental.min.css" media="all"/>
+    <!--[if IE 9]><link rel="stylesheet" href="aui/css/aui-ie9.min.css" media="all"/><![endif]-->
+
+    <style type="text/css" media="all">
+        @import url('style.css');
+        @import url('tree.css');
+        
+    </style>
+
+    <script src="jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui-experimental.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui-soy.min.js" type="text/javascript"></script>
+
+    <script src="package-nodes-tree.js" type="text/javascript"></script>
+    <script src="clover-tree.js" type="text/javascript"></script>
+    <script src="clover.js" type="text/javascript"></script>
+    <script src="clover-descriptions.js" type="text/javascript"></script>
+    <script src="cloud.js" type="text/javascript"></script>
+
+            <title>marxls 1.0.0-SNAPSHOT</title>
+    </head>
+
+<body onresize="processTreeMapDashJson(treeMapJson);" >
+    <div id="page">
+        
+        
+
+
+<header id="header" role="banner">
+    <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
+        <div class="aui-header-inner">
+            <div class="aui-header-primary">
+                <h1 id="logo" class="aui-header-logo aui-header-logo-clover">
+                    <a href="http://openclover.org" title="Visit OpenClover home page"><span class="aui-header-logo-device">OpenClover</span></a>
+                </h1>
+                            </div>
+            <div class="aui-header-secondary">
+                <ul class="aui-nav">
+                    <li id="system-help-menu">
+                        <a class="aui-nav-link" title="Open online documentation" target="_blank"
+                           href="http://openclover.org/documentation">
+                            <span class="aui-icon aui-icon-small aui-iconfont-help">&#160;Help</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+        
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <div class="aui-page-panel-nav aui-page-panel-nav-clover">
+                    
+
+<div class="aui-page-header-inner" style="margin-bottom: 20px;">
+    <div class="aui-page-header-image">
+                    <a href="https://suderio.github.io/marxls" target="_top">
+                <div class="aui-avatar aui-avatar-large aui-avatar-project">
+            <div class="aui-avatar-inner">
+                                    <img src="img/clover_logo_large.png" alt="Clover icon"/>
+                            </div>
+        </div>
+                    </a>
+            </div>
+    <div class="aui-page-header-main" >
+        <h1>
+                            <a href="https://suderio.github.io/marxls" target="_top">
+                                        marxls 1.0.0-SNAPSHOT
+                                        </a>
+                    </h1>
+    </div>
+</div>
+
+<nav class="aui-navgroup aui-navgroup-vertical">
+    <div class="aui-navgroup-inner">
+                                            <ul class="aui-nav">
+                <li class="aui-nav-selected">
+                    <a href="dashboard.html">Project overview</a>
+                </li>
+            </ul>
+        
+                <div class="aui-nav-heading packages-nav-heading">
+            <strong>Packages</strong>
+        </div>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
+                                                  <div class="packages-tree-wrapper" data-root-relative="" data-package-name="">
+                <div class="packages-tree-container"></div>
+                <div class="clover-packages-lozenges"></div>
+            </div>
+        </div>
+        
+            </div>
+</nav>                </div>
+                <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
+
+                    
+                    <ol class="aui-nav aui-nav-breadcrumbs">
+            
+        <li><a href="dashboard.html">Project Clover database Wed Oct 24 2018 21:17:16 BRT</a></li>
+    </ol>
+    
+<h1 class="aui-h2-clover">
+            Project overview
+    </h1>
+<div class="aui-tabs horizontal-tabs">
+        <ul class="tabs-menu">
+            <li class="menu-item active-tab">
+            <a href="dashboard.html">Dashboard</a>
+        </li>
+                <li class="menu-item ">
+            <a href="pkg-summary.html"><strong>Application code</strong></a>
+        </li>
+                <li class="menu-item ">
+            <a href="testsrc-pkg-summary.html"><strong>Test code</strong></a>
+        </li>
+        <li class="menu-item ">
+            <a href="test-pkg-summary.html"><strong>Test results</strong></a>
+        </li>
+                <li class="menu-item ">
+            <a href="top-risks.html"><strong>Top risks</strong></a>
+        </li>
+        <li class="menu-item ">
+            <a href="quick-wins.html"><strong>Quick wins</strong></a>
+        </li>
+                                                <li class="menu-item ">
+                <a href="treemap.html"><strong>Coverage tree map</strong></a>
+            </li>
+            </ul>
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+
+
+
+
+
+<div class="aui-group">
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                
+                <h3>
+                    Code coverage
+                    <small style="float:right; font-weight: normal">
+                        9 classes,
+                        264 /
+                        351 elements
+                    </small>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.75213677</span>75.2%</div><div style="display: table-cell">
+ <div title="75.2% Covered"  style="min-width:200px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:75.2%"></div></div></div></div>
+                <p><a href="pkg-summary.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    Test results
+                    <small style="float:right; font-weight: normal">
+                        7 /
+                        7 tests
+                        0.77 secs
+                    </small>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                                    
+
+<div style="display: table; width: 100%">
+            <div class="barGraphValue"><span class="sortValue">1.0</span>100%</div>         <div style="display: table-cell">
+            
+            <div title="0% Errors" style="min-width: 40px;" class="testBarError">
+                <div title="100% of tests passed&lt;br/&gt;0% of tests failed" class="testBarFail" style="width: 100%"><div class="testBarPass" style="width: 100%"></div></div>
+            </div>
+        </div>
+    </div>                                <p><a href="test-pkg-summary.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Code metrics</h3>
+            </header>
+                         
+
+<div id="$statsId" class="aui-item" style="display: ${display}">
+<div style="display: table">
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of branches in this project">Branches:</label></div>
+        <div class="stats-box-value">70</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of statements in this project">Statements:</label></div>
+        <div class="stats-box-value">231</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of methods in this project">Methods:</label></div>
+        <div class="stats-box-value">50</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of classes in this project">Classes:</label></div>
+        <div class="stats-box-value">9</div>
+    </div>
+            <div class="stats-box">
+            <div class="stats-box-label"><label title="Total number of files in this project">Files:</label></div>
+            <div class="stats-box-value">8</div>
+        </div>
+                <div class="stats-box">
+            <div class="stats-box-label"><label title="Total number of packages in this project">Packages:</label></div>
+            <div class="stats-box-value">1</div>
+        </div>
+        <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of lines of code in this project">LOC:</label></div>
+        <div class="stats-box-value">655</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of non-comment lines of code in this project">NCLOC:</label></div>
+        <div class="stats-box-value">566</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Cyclomatic complexity is the number of paths in this project">Total complexity:</label></div>
+        <div class="stats-box-value">128</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label">
+            <label title="Complexity density is the complexity divided by the number of statements in this project">Complexity density:</label>
+        </div>
+        <div class="stats-box-value">0.55</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Number of statements per method.">Statements/Method:</label></div>
+        <div class="stats-box-value">4.62</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Number of methods per class.">Methods/Class:</label></div>
+        <div class="stats-box-value">5.56</div>
+    </div>
+            <div class="stats-box">
+            <div class="stats-box-label"><label title="Number of classes per package.">Classes/Package:</label></div>
+            <div class="stats-box-value">9</div>
+        </div>
+        <div class="stats-box">
+        <div class="stats-box-label"><label title="Complexity divided by the number of methods in this project">Average method complexity:</label></div>
+        <div class="stats-box-value">2.56</div>
+    </div>
+</div>
+
+</div>        </div>
+
+                <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Class Coverage Distribution</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="text-align: center">                     <img src="img/classDistrubutionChart.png" alt="img/classDistrubutionChart.png" usemap="#classDistrubutionChart.png"/>
+                </div>
+                <map id="classDistrubutionChart.png" name="classDistrubutionChart.png">
+<area shape="rect" coords="293,15,315,206" title="2 classes have 91-100% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="268,111,290,206" title="1 class has 81-90% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="242,15,264,206" title="2 classes have 71-80% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="217,111,239,206" title="1 class has 61-70% coverage" alt="" nohref="nohref"/>
+<area shape="rect" coords="191,111,213,206" title="1 class has 51-60% coverage" alt="" nohref="nohref"/>
+</map>
+            </div>
+        </div>
+        
+                <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Class Complexity</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="text-align: center">
+                    <img src="img/classComplexityChart.png" alt="img/classComplexityChart.png" usemap="#classComplexityChart.png"/>
+                </div>
+                <map id="classComplexityChart.png" name="classComplexityChart.png">
+<area shape="poly" coords="252,28,249,30,247,28,249,25,252,28,252,28" title="Complexity: 35; Coverage: 79%; Class: Repository" alt="" href="marxls/Repository.html#Repository"/>
+<area shape="poly" coords="304,199,302,201,299,199,302,196,304,199,304,199" title="Complexity: 2; Coverage: 100%; Class: Member" alt="" href="marxls/Member.html#Member"/>
+<area shape="poly" coords="304,199,302,201,299,199,302,196,304,199,304,199" title="Complexity: 2; Coverage: 100%; Class: Member" alt="" href="marxls/Member.html#Member"/>
+<area shape="poly" coords="259,90,257,93,254,90,257,88,259,90,259,90" title="Complexity: 23; Coverage: 82%; Class: ExcelMarshaller" alt="" href="marxls/ExcelMarshaller.html#ExcelMarshaller"/>
+<area shape="poly" coords="224,162,222,165,219,162,222,160,224,162,224,162" title="Complexity: 9; Coverage: 68%; Class: ExcelFile.ExcelSheet" alt="" href="marxls/ExcelFile.html#ExcelFile.ExcelSheet"/>
+<area shape="poly" coords="239,18,237,20,234,18,237,15,239,18,239,18" title="Complexity: 37; Coverage: 74%; Class: ExcelFile" alt="" href="marxls/ExcelFile.html#ExcelFile"/>
+<area shape="poly" coords="199,106,197,108,194,106,197,103,199,106,199,106" title="Complexity: 20; Coverage: 58%; Class: ConverterFactory" alt="" href="marxls/ConverterFactory.html#ConverterFactory"/>
+</map>
+            </div>
+        </div>
+        
+                    <div class="dashboard-widget">
+                <header class="dashboard-widget-header">
+                    <h3>Coverage tree map</h3>
+                </header>
+                <div class="dashboard-widget-content">
+                    <div id="infovis" style="width:100%; height:250px;">
+                        <div id="treemap-loader" style="position:relative;top:50px;">
+                            <p>
+                                Generating Coverage Tree Map. Please wait...
+                            </p>
+                            <p>
+                                <img src="img/ajax-loader.gif" alt="Loading Treemap"/>
+                            </p>
+                        </div>
+                    </div>
+                    <p><a href="treemap.html">See more</a></p>
+                </div>
+
+            </div>
+            </div>
+
+
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Top 6 project risks</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                
+                                                                <a class="tag" href="marxls/Repository.html"
+                            style="font-size: 25px;color:#89c495"
+                            title="Average Method Complexity - 4.375 , Coverage - 79.1% ">Repository</a>
+                                    
+                                                                <a class="tag" href="marxls/ExcelMarshaller.html"
+                            style="font-size: 19px;color:#89c495"
+                            title="Average Method Complexity - 2.3 , Coverage - 82.8% ">ExcelMarshaller</a>
+                                    
+                                                                <a class="tag" href="marxls/ExcelFile.html"
+                            style="font-size: 19px;color:#14892c"
+                            title="Average Method Complexity - 2.312 , Coverage - 74.8% ">ExcelFile</a>
+                                    
+                                                                <a class="tag" href="marxls/ConverterFactory.html"
+                            style="font-size: 28px;color:#f6c342"
+                            title="Average Method Complexity - 5 , Coverage - 58% ">ConverterFactory</a>
+                                    
+                                                                <a class="tag" href="marxls/ExcelFile.html"
+                            style="font-size: 15px;color:#fae1a0"
+                            title="Average Method Complexity - 1 , Coverage - 68.4% ">ExcelFile.ExcelSheet</a>
+                                    
+                                                                <a class="tag" href="marxls/Mappings.html"
+                            style="font-size: 12px;color:#d04437"
+                            title="Average Method Complexity - 0 , Coverage -  -  ">Mappings</a>
+                                                    <p><a href="top-risks.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Most complex packages</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                
+                <table class="aui">
+                                            
+                                                <tr>
+                            <td>1. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.75213677</span>75.2%</div><div style="display: table-cell">
+ <div title="75.2% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:75.2%"></div></div></div></div></td>
+                            <td>
+                                <a href="marxls/pkg-summary.html">marxls</a>
+                                <span class="aui-badge" title="Package complexity">128</span>
+                            </td>
+                        </tr>
+                                    </table>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Most complex classes</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table class="aui">
+                                            
+                                                <tr>
+                            <td>1. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.7478992</span>74.8%</div><div style="display: table-cell">
+ <div title="74.8% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:74.8%"></div></div></div></div></td>
+                            <td>
+                                <a  href="marxls/ExcelFile.html"  title="marxls.ExcelFile">ExcelFile</a>
+                                <span class="aui-badge" title="Class complexity">37</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>2. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.7912088</span>79.1%</div><div style="display: table-cell">
+ <div title="79.1% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:79.1%"></div></div></div></div></td>
+                            <td>
+                                <a  href="marxls/Repository.html"  title="marxls.Repository">Repository</a>
+                                <span class="aui-badge" title="Class complexity">35</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>3. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.828125</span>82.8%</div><div style="display: table-cell">
+ <div title="82.8% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:82.8%"></div></div></div></div></td>
+                            <td>
+                                <a  href="marxls/ExcelMarshaller.html"  title="marxls.ExcelMarshaller">ExcelMarshaller</a>
+                                <span class="aui-badge" title="Class complexity">23</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>4. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.58</span>58%</div><div style="display: table-cell">
+ <div title="58% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:58%"></div></div></div></div></td>
+                            <td>
+                                <a  href="marxls/ConverterFactory.html"  title="marxls.ConverterFactory">ConverterFactory</a>
+                                <span class="aui-badge" title="Class complexity">20</span>
+                            </td>
+                        </tr>
+                                            
+                                                <tr>
+                            <td>5. </td>
+                            <td><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.68421054</span>68.4%</div><div style="display: table-cell">
+ <div title="68.4% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:68.4%"></div></div></div></div></td>
+                            <td>
+                                <a  href="marxls/ExcelFile.html"  title="marxls.ExcelFile.ExcelSheet">ExcelFile.ExcelSheet</a>
+                                <span class="aui-badge" title="Class complexity">9</span>
+                            </td>
+                        </tr>
+                                    </table>
+            </div>
+        </div>
+
+                <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Least tested methods</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table class="aui">
+                                            
+
+                    <tr>
+                        <td align="right">1.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.save(File)&#160;:&#160;void" href="marxls/ExcelFile.html?line=165#src-165">ExcelFile.save(File)&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">2</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">2.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.read(String,int,int,Consumer&lt;String&gt;)&#160;:&#160;String" href="marxls/ExcelFile.html?line=68#src-68">ExcelFile.read(String,int,int,Consumer&lt;String&gt;)&#160;:&#160;String</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">3.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.ExcelFile(Path)" href="marxls/ExcelFile.html?line=38#src-38">ExcelFile.ExcelFile(Path)</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">4.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.save(Path)&#160;:&#160;void" href="marxls/ExcelFile.html?line=161#src-161">ExcelFile.save(Path)&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">5.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.ExcelSheet.read(int,int,Consumer&lt;String&gt;)&#160;:&#160;String" href="marxls/ExcelFile.html?line=199#src-199">ExcelFile.ExcelSheet.read(int,int,Consumer&lt;String&gt;)&#160;:&#160;String</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">6.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.ExcelSheet.read(int,int)&#160;:&#160;String" href="marxls/ExcelFile.html?line=203#src-203">ExcelFile.ExcelSheet.read(int,int)&#160;:&#160;String</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">7.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.ExcelSheet.toString()&#160;:&#160;String" href="marxls/ExcelFile.html?line=215#src-215">ExcelFile.ExcelSheet.toString()&#160;:&#160;String</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">8.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelMarshaller.addBeanFilter(Predicate&lt;Object&gt;)&#160;:&#160;void" href="marxls/ExcelMarshaller.html?line=135#src-135">ExcelMarshaller.addBeanFilter(Predicate&lt;Object&gt;)&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">9.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.0</span>0%</div><div style="display: table-cell">
+ <div title="0% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:0%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="Repository.addFilter(Predicate&lt;Object&gt;)&#160;:&#160;void" href="marxls/Repository.html?line=65#src-65">Repository.addFilter(Predicate&lt;Object&gt;)&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">1</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">10.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.41666666</span>41.7%</div><div style="display: table-cell">
+ <div title="41.7% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:41.7%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ConverterFactory.converter(Class&lt;?&gt;)&#160;:&#160;Converter&lt;T&gt;" href="marxls/ConverterFactory.html?line=18#src-18">ConverterFactory.converter(Class&lt;?&gt;)&#160;:&#160;Converter&lt;T&gt;</a>
+                            <span class="aui-badge" title="Method complexity">4</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">11.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.42857143</span>42.9%</div><div style="display: table-cell">
+ <div title="42.9% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:42.9%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelMarshaller.column(ExcelSheet,Member)&#160;:&#160;int" href="marxls/ExcelMarshaller.html?line=111#src-111">ExcelMarshaller.column(ExcelSheet,Member)&#160;:&#160;int</a>
+                            <span class="aui-badge" title="Method complexity">4</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">12.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.5294118</span>52.9%</div><div style="display: table-cell">
+ <div title="52.9% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:52.9%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.getCellValue(Cell)&#160;:&#160;String" href="marxls/ExcelFile.html?line=125#src-125">ExcelFile.getCellValue(Cell)&#160;:&#160;String</a>
+                            <span class="aui-badge" title="Method complexity">9</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">13.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.58064514</span>58.1%</div><div style="display: table-cell">
+ <div title="58.1% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:58.1%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ConverterFactory.converter(String)&#160;:&#160;Converter&lt;T&gt;" href="marxls/ConverterFactory.html?line=36#src-36">ConverterFactory.converter(String)&#160;:&#160;Converter&lt;T&gt;</a>
+                            <span class="aui-badge" title="Method complexity">13</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">14.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.6</span>60%</div><div style="display: table-cell">
+ <div title="60% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:60%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="Repository.get(String,int)&#160;:&#160;Object" href="marxls/Repository.html?line=39#src-39">Repository.get(String,int)&#160;:&#160;Object</a>
+                            <span class="aui-badge" title="Method complexity">2</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">15.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.6666667</span>66.7%</div><div style="display: table-cell">
+ <div title="66.7% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:66.7%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelMarshaller.getLines(ExcelSheet)&#160;:&#160;SortedSet&lt;Integer&gt;" href="marxls/ExcelMarshaller.html?line=124#src-124">ExcelMarshaller.getLines(ExcelSheet)&#160;:&#160;SortedSet&lt;Integer&gt;</a>
+                            <span class="aui-badge" title="Method complexity">3</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">16.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.6666667</span>66.7%</div><div style="display: table-cell">
+ <div title="66.7% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:66.7%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.close()&#160;:&#160;void" href="marxls/ExcelFile.html?line=173#src-173">ExcelFile.close()&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">2</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">17.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.6923077</span>69.2%</div><div style="display: table-cell">
+ <div title="69.2% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:69.2%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="ExcelFile.setCellValue(Cell,Object)&#160;:&#160;void" href="marxls/ExcelFile.html?line=145#src-145">ExcelFile.setCellValue(Cell,Object)&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">4</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">18.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.75</span>75%</div><div style="display: table-cell">
+ <div title="75% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:75%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="Repository.newCollectionInstance(Class&lt;T&gt;)&#160;:&#160;T" href="marxls/Repository.html?line=131#src-131">Repository.newCollectionInstance(Class&lt;T&gt;)&#160;:&#160;T</a>
+                            <span class="aui-badge" title="Method complexity">14</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">19.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.75</span>75%</div><div style="display: table-cell">
+ <div title="75% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:75%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="Repository.put(Mapping,int,Object)&#160;:&#160;void" href="marxls/Repository.html?line=33#src-33">Repository.put(Mapping,int,Object)&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">2</span>
+
+                        </td>
+                    </tr>
+                                            
+
+                    <tr>
+                        <td align="right">20.</td>
+                        <td align="right"><div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">0.8125</span>81.2%</div><div style="display: table-cell">
+ <div title="81.2% Covered"  style="min-width:40px;" class="barNegative contribBarNegative "><div class="barPositive contribBarPositive " style="width:81.2%"></div></div></div></div></td>
+                        <td>
+                              <!-- normal method -->
+                                                      <a title="Repository.set(T,Member,V,String,List&lt;Mapping&gt;)&#160;:&#160;void" href="marxls/Repository.html?line=69#src-69">Repository.set(T,Member,V,String,List&lt;Mapping&gt;)&#160;:&#160;void</a>
+                            <span class="aui-badge" title="Method complexity">11</span>
+
+                        </td>
+                    </tr>
+                                    </table>
+            </div>
+        </div>
+        
+    </div>
+</div>
+                            </div> <!-- tabs-pane active-pane -->
+                        </div>
+
+    <script type="text/javascript" src="jit.js" ></script>
+    <script type="text/javascript" src="treemap-dash-json.js" ></script>
+
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    <footer id="footer" role="contentinfo">
+    <section class="footer-body">
+        <ul>
+            <li>
+                Report generated by <a target="_new" href="http://openclover.org">OpenClover</a> v 4.3.0
+                on Wed Oct 24 2018 21:19:01 BRT using coverage data from Wed Oct 24 2018 21:18:04 BRT.
+            </li>
+        </ul>
+        <ul>
+            <li>Clover free edition. </li>
+        </ul>
+    </section>
+</footer>                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
+    </div> <!-- id="page" -->
+</body>
+</html>
