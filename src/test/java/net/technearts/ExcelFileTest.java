@@ -23,7 +23,7 @@ public class ExcelFileTest {
   public void testExcelFile() {
 
     try (ExcelFile xls =
-        new ExcelFile(new File(this.getClass().getResource("Pasta1.xlsx").toURI()))) {
+        new ExcelFile(new File(this.getClass().getResource("/Pasta1.xlsx").toURI()))) {
       xls.write("Plan1", 0, 0, "A");
       xls.write("Plan1", 0, 1, "B");
       xls.write("Plan1", 0, 2, "C");
@@ -47,7 +47,7 @@ public class ExcelFileTest {
 
   @Test
   public void testExcelSheet() {
-    URL url = this.getClass().getResource("Pasta1.xlsx");
+    URL url = this.getClass().getResource("/Pasta1.xlsx");
     try {
       URI uri = url.toURI();
       try (ExcelFile xls = new ExcelFile(new File(uri))) {

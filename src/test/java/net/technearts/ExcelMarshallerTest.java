@@ -22,8 +22,8 @@ public class ExcelMarshallerTest {
   public void setup() {
     try {
       marshaller =
-          ExcelMarshaller.create(new File(this.getClass().getResource("exemplo.yml").toURI()));
-      marshaller.read(new File(this.getClass().getResource("Pasta2.xlsx").toURI()));
+          ExcelMarshaller.create(new File(this.getClass().getResource("/exemplo.yml").toURI()));
+      marshaller.read(new File(this.getClass().getResource("/Pasta2.xlsx").toURI()));
     } catch (URISyntaxException | IOException e) {
       fail(e.getMessage());
     }
