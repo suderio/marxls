@@ -25,7 +25,7 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2018 Technearts</copyright>
     <item>
-      <title>File: 8,
+      <title>File: 6,
              Errors: 0,
              Warnings: 67,
              Infos: 0
@@ -67,20 +67,6 @@ under the License.
                 </td>
                 <td>
                   21
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.Converter.java">marxls/Converter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
                 </td>
                 <td>
                   0
@@ -137,20 +123,6 @@ under the License.
                 </td>
                 <td>
                   18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.Member.java">marxls/Member.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
                 </td>
                 <td>
                   0

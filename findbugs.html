@@ -76,8 +76,8 @@ marxls
 <th>Errors</th>
 <th>Missing Classes</th></tr>
 <tr class="b">
-<td>10</td>
-<td>5</td>
+<td>9</td>
+<td>4</td>
 <td>0</td>
 <td>0</td></tr></table></div>
 <div class="section">
@@ -94,26 +94,23 @@ marxls
 <td>1</td></tr>
 <tr class="b">
 <td><a href="#marxls.ExcelFile$ExcelSheet">marxls.ExcelFile$ExcelSheet</a></td>
-<td>1</td></tr>
-<tr class="a">
-<td><a href="#marxls.ExcelMarshaller">marxls.ExcelMarshaller</a></td>
 <td>1</td></tr></table></div><a name="marxls.ConverterFactory"></a>
 <div class="section">
 <h3><a name="marxls.ConverterFactory"></a>marxls.ConverterFactory</h3>
 <table border="0" class="bodyTable">
-<tr class="b">
+<tr class="a">
 <th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 <th>Priority</th></tr>
-<tr class="a">
+<tr class="b">
 <td>Impossible cast from Class&lt;?&gt; to marxls.Converter in marxls.ConverterFactory.converter(Class)</td>
 <td>CORRECTNESS</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#BC_IMPOSSIBLE_CAST">BC_IMPOSSIBLE_CAST</a></td>
 <td><a href="./xref/marxls/ConverterFactory.html#L30">30</a></td>
 <td>High</td></tr>
-<tr class="b">
+<tr class="a">
 <td>Boxing/unboxing to parse a primitive marxls.ConverterFactory.converter(String)</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#DM_BOXED_PRIMITIVE_FOR_PARSING">DM_BOXED_PRIMITIVE_FOR_PARSING</a></td>
@@ -122,13 +119,13 @@ marxls
 <div class="section">
 <h3><a name="marxls.ExcelFile"></a>marxls.ExcelFile</h3>
 <table border="0" class="bodyTable">
-<tr class="a">
+<tr class="b">
 <th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 <th>Priority</th></tr>
-<tr class="b">
+<tr class="a">
 <td>marxls.ExcelFile.save(File) may fail to clean up java.io.OutputStream</td>
 <td>EXPERIMENTAL</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#OBL_UNSATISFIED_OBLIGATION">OBL_UNSATISFIED_OBLIGATION</a></td>
@@ -137,32 +134,17 @@ marxls
 <div class="section">
 <h3><a name="marxls.ExcelFile.24ExcelSheet"></a>marxls.ExcelFile$ExcelSheet</h3>
 <table border="0" class="bodyTable">
-<tr class="a">
+<tr class="b">
 <th>Bug</th>
 <th>Category</th>
 <th>Details</th>
 <th>Line</th>
 <th>Priority</th></tr>
-<tr class="b">
+<tr class="a">
 <td>Should marxls.ExcelFile$ExcelSheet be a _static_ inner class?</td>
 <td>PERFORMANCE</td>
 <td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#SIC_INNER_SHOULD_BE_STATIC">SIC_INNER_SHOULD_BE_STATIC</a></td>
-<td><a href="./xref/marxls/ExcelFile.html#L182">182-220</a></td>
-<td>Medium</td></tr></table></div><a name="marxls.ExcelMarshaller"></a>
-<div class="section">
-<h3><a name="marxls.ExcelMarshaller"></a>marxls.ExcelMarshaller</h3>
-<table border="0" class="bodyTable">
-<tr class="a">
-<th>Bug</th>
-<th>Category</th>
-<th>Details</th>
-<th>Line</th>
-<th>Priority</th></tr>
-<tr class="b">
-<td>Possible null pointer dereference of klazz in marxls.ExcelMarshaller.read(File) on exception path</td>
-<td>CORRECTNESS</td>
-<td><a class="externalLink" href="http://findbugs.sourceforge.net/bugDescriptions.html#NP_NULL_ON_SOME_PATH_EXCEPTION">NP_NULL_ON_SOME_PATH_EXCEPTION</a></td>
-<td><a href="./xref/marxls/ExcelMarshaller.html#L85">85</a></td>
+<td><a href="./xref/marxls/ExcelFile.html#L186">186-220</a></td>
 <td>Medium</td></tr></table></div>
       </div>
     </div>
