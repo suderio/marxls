@@ -1,4 +1,4 @@
-package marxls;
+package net.technearts;
 
 import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import marxls.ExcelFile.ExcelSheet;
+import net.technearts.ExcelFile.ExcelSheet;
 
 public class ExcelMarshaller {
 

@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>sandbox</groupId>
+	<groupId>net.technearts</groupId>
 	<artifactId>marxls</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
-	<name>marxls</name>
+	<name>net.technearts</name>
 
-	<description>marxls - object/excel mapping</description>
+	<description>net.technearts - object/excel mapping</description>
 
-	<url>https://suderio.github.io/marxls</url>
+	<url>https://suderio.github.io/net.technearts</url>
 
 	<organization>
 		<name>Technearts</name>
@@ -22,7 +22,7 @@
 	<licenses>
 		<license>
 			<name>MIT License</name>
-			<url>https://raw.githubusercontent.com/suderio/marxls/master/LICENSE</url>
+			<url>https://raw.githubusercontent.com/suderio/net.technearts/master/LICENSE</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
@@ -36,13 +36,12 @@
 	</developers>
 
 	<scm>
-		<url>https://github.com/suderio/marxls</url>
-		<connection>scm:git:http://github.com/suderio/marxls.git</connection>
-		<developerConnection>scm:git:https://github.com/suderio/marxls.git</developerConnection>
+		<url>https://github.com/suderio/net.technearts</url>
+		<connection>scm:git:http://github.com/suderio/net.technearts.git</connection>
+		<developerConnection>scm:git:https://github.com/suderio/net.technearts.git</developerConnection>
 	</scm>
 
 	<issueManagement>
-		<url>https://github.com/suderio/marxls/issues</url>
 		<system>github</system>
 	</issueManagement>
 

@@ -1,4 +1,4 @@
-package marxls;
+package net.technearts;
 
 import java.math.BigDecimal;
 import java.util.Date;

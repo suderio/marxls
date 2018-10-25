@@ -1,4 +1,4 @@
-package marxls;
+package net.technearts;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 

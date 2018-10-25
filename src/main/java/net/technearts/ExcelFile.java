@@ -1,4 +1,4 @@
-package marxls;
+package net.technearts;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package marxls;
+package net.technearts;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -11,6 +11,8 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import net.technearts.ExcelMarshaller;
 
 public class ExcelMarshallerTest {
 

@@ -1,4 +1,4 @@
-package marxls;
+package net.technearts;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ mappings:
   -
     # tipos diferentes
     name: simpleEntity
-    className: marxls.SimpleEntity
+    className: net.technearts.SimpleEntity
     sheet: Plan1
     members:
     - {title: D03, converter: date, property: date}
@@ -13,24 +13,24 @@ mappings:
   - 
     # enum
     name: address
-    className: marxls.Address
+    className: net.technearts.Address
     sheet: Plan2
     members:
     - {title: C13, property: text}
-    - {title: C14, converter: marxls.Country, property: country}
+    - {title: C14, converter: net.technearts.Country, property: country}
   -
     # bean sem referência
     name: place
-    className: marxls.Place
+    className: net.technearts.Place
     sheet: Plan2
     members:
     - {title: C04, property: description}
     - {title: C05, property: index, mapped: false}
-    - {converter: marxls.Address, property: address}
+    - {converter: net.technearts.Address, property: address}
   - 
     # múltiplos valores & bean com referências múltiplas
     name: placeTags
-    className: marxls.PlaceTags
+    className: net.technearts.PlaceTags
     sheet: Plan1
     members:
     - {title: C02, property: tags}
@@ -39,9 +39,9 @@ mappings:
   -
     # bean com referências simples
     name: mainEntity
-    className: marxls.MainEntity
+    className: net.technearts.MainEntity
     sheet: Plan1
     members:
-    - {converter: marxls.SimpleEntity, property: simpleEntity}
-    - {converter: marxls.PlaceTags, property: placeTags}
+    - {converter: net.technearts.SimpleEntity, property: simpleEntity}
+    - {converter: net.technearts.PlaceTags, property: placeTags}
     
