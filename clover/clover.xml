@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1558313488941" clover="4.3.0">
-   <project name="marxls 0.0.2" timestamp="1558313455134">
+<coverage generated="1558319482092" clover="4.3.0">
+   <project name="marxls 0.0.2" timestamp="1558319449957">
       <metrics coveredelements="264" complexity="128" loc="655" methods="50" classes="9" statements="231" packages="1" coveredconditionals="49" coveredmethods="40" elements="351" ncloc="566" files="8" conditionals="70" coveredstatements="175"/>
       <package name="net.technearts">
          <metrics coveredelements="264" complexity="128" loc="655" methods="50" classes="9" statements="231" coveredconditionals="49" coveredmethods="40" elements="351" ncloc="566" files="8" conditionals="70" coveredstatements="175"/>
@@ -373,7 +373,7 @@
          </file>
       </package>
    </project>
-   <testproject name="marxls 0.0.2" timestamp="1558313455134">
+   <testproject name="marxls 0.0.2" timestamp="1558319449957">
       <metrics coveredelements="68" complexity="19" loc="216" methods="11" classes="8" statements="63" packages="1" coveredconditionals="0" coveredmethods="10" elements="74" ncloc="176" files="8" conditionals="0" coveredstatements="58"/>
       <package name="net.technearts">
          <metrics coveredelements="68" complexity="19" loc="216" methods="11" classes="8" statements="63" coveredconditionals="0" coveredmethods="10" elements="74" ncloc="176" files="8" conditionals="0" coveredstatements="58"/>
@@ -392,9 +392,9 @@
          <file path="/home/paulo/Repos/marxls/src/test/java/net/technearts/ExcelFileTest.java" name="ExcelFileTest.java">
             <metrics coveredelements="40" coveredconditionals="0" complexity="12" loc="88" coveredmethods="4" methods="5" elements="45" classes="1" ncloc="73" statements="40" conditionals="0" coveredstatements="36"/>
             <class name="ExcelFileTest">
-               <metrics coveredelements="40" complexity="12" methods="5" testruns="2" statements="40" coveredconditionals="0" coveredmethods="4" elements="45" testfailures="0" testduration="0.535" conditionals="0" coveredstatements="36" testpasses="2"/>
+               <metrics coveredelements="40" complexity="12" methods="5" testruns="2" statements="40" coveredconditionals="0" coveredmethods="4" elements="45" testfailures="0" testduration="0.5670000000000001" conditionals="0" coveredstatements="36" testpasses="2"/>
             </class>
-            <line complexity="4" visibility="public" signature="testExcelFile() : void" num="22" testsuccess="true" count="1" testduration="0.038" type="method"/>
+            <line complexity="4" visibility="public" signature="testExcelFile() : void" num="22" testsuccess="true" count="1" testduration="0.041" type="method"/>
             <line num="25" count="1" type="stmt"/>
             <line num="25" count="1" type="stmt"/>
             <line num="27" count="1" type="stmt"/>
@@ -411,7 +411,7 @@
             <line num="40" count="1" type="stmt"/>
             <line num="43" count="0" type="stmt"/>
             <line num="45" count="1" type="stmt"/>
-            <line complexity="5" visibility="public" signature="testExcelSheet() : void" num="48" testsuccess="true" count="1" testduration="0.497" type="method"/>
+            <line complexity="5" visibility="public" signature="testExcelSheet() : void" num="48" testsuccess="true" count="1" testduration="0.526" type="method"/>
             <line num="50" count="1" type="stmt"/>
             <line num="51" count="1" type="stmt"/>
             <line num="52" count="1" type="stmt"/>
@@ -443,7 +443,7 @@
          <file path="/home/paulo/Repos/marxls/src/test/java/net/technearts/ExcelMarshallerTest.java" name="ExcelMarshallerTest.java">
             <metrics coveredelements="28" coveredconditionals="0" complexity="7" loc="70" coveredmethods="6" methods="6" elements="29" classes="1" ncloc="58" statements="23" conditionals="0" coveredstatements="22"/>
             <class name="ExcelMarshallerTest">
-               <metrics coveredelements="28" complexity="7" methods="6" testruns="5" statements="23" coveredconditionals="0" coveredmethods="6" elements="29" testfailures="0" testduration="0.002" conditionals="0" coveredstatements="22" testpasses="5"/>
+               <metrics coveredelements="28" complexity="7" methods="6" testruns="5" statements="23" coveredconditionals="0" coveredmethods="6" elements="29" testfailures="0" testduration="0.001" conditionals="0" coveredstatements="22" testpasses="5"/>
             </class>
             <line complexity="2" visibility="public" signature="setup() : void" num="21" count="5" type="method"/>
             <line num="23" count="5" type="stmt"/>
@@ -462,7 +462,7 @@
             <line num="48" count="1" type="stmt"/>
             <line num="49" count="1" type="stmt"/>
             <line num="50" count="1" type="stmt"/>
-            <line complexity="1" visibility="public" signature="testMemberWithMultiValue() : void" num="53" testsuccess="true" count="1" testduration="0.001" type="method"/>
+            <line complexity="1" visibility="public" signature="testMemberWithMultiValue() : void" num="53" testsuccess="true" count="1" testduration="0.0" type="method"/>
             <line num="55" count="1" type="stmt"/>
             <line num="56" count="1" type="stmt"/>
             <line num="57" count="1" type="stmt"/>
