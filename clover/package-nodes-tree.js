@@ -5,14 +5,14 @@ var Packages = {
                                                                                                         
                 
 {
-    "id": "marxls",
-    "text": "marxls",
-    "package": "marxls",
-    "url": "marxls/pkg-summary.html",
+    "id": "net.technearts",
+    "text": "net.technearts",
+    "package": "net.technearts",
+    "url": "net/technearts/pkg-summary.html",
             "coverage": "78.1%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
-        "a_attr": {"href": "marxls/pkg-summary.html"},
+        "a_attr": {"href": "net/technearts/pkg-summary.html"},
     "children": [
                     ]
 },

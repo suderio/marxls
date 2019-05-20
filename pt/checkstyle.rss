@@ -23,7 +23,7 @@ under the License.
     <link>https://suderio.github.io/marxls</link>
     <description>marxls - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2018 Technearts</copyright>
+    <copyright>&#169;2019 Technearts</copyright>
     <item>
       <title>File: 6,
              Errors: 0,
@@ -46,7 +46,21 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.ConverterFactory.java">marxls/ConverterFactory.java</a>
+                  <a href="https://suderio.github.io/marxls/checkstyle.html#net.technearts.Repository.java">net/technearts/Repository.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://suderio.github.io/marxls/checkstyle.html#net.technearts.ConverterFactory.java">net/technearts/ConverterFactory.java</a>
                 </td>
                 <td>
                   0
@@ -60,49 +74,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.ExcelFile.java">marxls/ExcelFile.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  21
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.Mapping.java">marxls/Mapping.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.ExcelMarshaller.java">marxls/ExcelMarshaller.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  19
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.Mappings.java">marxls/Mappings.java</a>
+                  <a href="https://suderio.github.io/marxls/checkstyle.html#net.technearts.Mappings.java">net/technearts/Mappings.java</a>
                 </td>
                 <td>
                   0
@@ -116,13 +88,41 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="https://suderio.github.io/marxls/checkstyle.html#marxls.Repository.java">marxls/Repository.java</a>
+                  <a href="https://suderio.github.io/marxls/checkstyle.html#net.technearts.Mapping.java">net/technearts/Mapping.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  18
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://suderio.github.io/marxls/checkstyle.html#net.technearts.ExcelMarshaller.java">net/technearts/ExcelMarshaller.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://suderio.github.io/marxls/checkstyle.html#net.technearts.ExcelFile.java">net/technearts/ExcelFile.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
                 </td>
                 <td>
                   0
