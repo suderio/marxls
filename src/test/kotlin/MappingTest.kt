@@ -2,6 +2,8 @@ import net.technearts.SimpleEntity
 import net.technearts.named
 import net.technearts.from
 import net.technearts.read
+import net.technearts.*
+import org.apache.poi.ss.usermodel.DateUtil
 import org.junit.Test
 
 class MappingTest {
@@ -20,9 +22,9 @@ class MappingTest {
     @Test
     fun simpleEntityMappingTest() {
         SimpleEntity::class named "simpleEntity" from "Plan1" read (listOf(
-                Triple("", "", ""),
-                Triple("", "", ""))
-        )
+                "date" column "'D03" converted { a -> DateUtil.getJavaDate(java.lang.Double.valueOf(a), true) },
+                "integer" column "D04" converted { a: String -> Integer.valueOf(a) })
+                )
     }
 }
 
