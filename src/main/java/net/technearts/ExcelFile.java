@@ -35,11 +35,11 @@ public class ExcelFile implements AutoCloseable {
   private XSSFWorkbook workbook;
   private Map<String, Sheet> sheets;
 
-  public ExcelFile(Path path) throws FileNotFoundException, IOException {
+  public ExcelFile(Path path) throws IOException {
     this(path.toFile());
   }
 
-  public ExcelFile(File file) throws FileNotFoundException, IOException {
+  public ExcelFile(File file) throws IOException {
     this.workbook = new XSSFWorkbook(new FileInputStream(file));
     sheets = new HashMap<>();
     Iterator<Sheet> i = this.workbook.sheetIterator();

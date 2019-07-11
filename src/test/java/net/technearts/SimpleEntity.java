@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class SimpleEntity {
   private Date date;
   private Integer integer;

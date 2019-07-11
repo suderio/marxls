@@ -46,17 +46,16 @@ public class ExcelMarshaller {
   }
 
   private ExcelMarshaller(File yaml, Predicate<Row> rowFilter, boolean skipTitle)
-      throws JsonParseException, JsonMappingException, IOException {
+      throws IOException {
     this(yaml, ";", rowFilter, skipTitle);
   }
 
-  public static ExcelMarshaller create(File file)
-      throws JsonParseException, JsonMappingException, IOException {
+  public static ExcelMarshaller create(File file) throws IOException {
     return create(file, any -> true, true);
   }
 
   public static ExcelMarshaller create(File file, Predicate<Row> rowFilter, boolean skipTitle)
-      throws JsonParseException, JsonMappingException, IOException {
+      throws IOException {
     ExcelMarshaller marshaller = new ExcelMarshaller(file, rowFilter, skipTitle);
     for (Mapping mapping : marshaller.mappings.getMappings()) {
       marshaller.sheets.add(mapping.getSheet());

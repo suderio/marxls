@@ -132,7 +132,7 @@ public class Repository {
   private <T> T newCollectionInstance(Class<T> klass) {
     T t = null;
     try {
-      t = (T) klass.newInstance();
+      t = klass.newInstance();
     } catch (NullPointerException | InstantiationException | IllegalAccessException e) {
       if (NavigableSet.class.equals(klass) || Set.class.equals(klass)
           || SortedSet.class.equals(klass)

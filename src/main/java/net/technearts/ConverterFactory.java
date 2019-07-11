@@ -29,7 +29,7 @@ public final class ConverterFactory {
     } else if (ArrayUtils.contains(klazz.getInterfaces(), Converter.class)) {
       return Converter.class.cast(klazz);
     } else {
-      return a -> (T) a.toString();
+      return a -> (T) a;
     }
   }
 
@@ -62,7 +62,7 @@ public final class ConverterFactory {
         return a -> (T) Character.valueOf(a.charAt(0));
       case "string":
       default:
-        return a -> (T) a.toString();
+        return a -> (T) a;
     }
   }
 
