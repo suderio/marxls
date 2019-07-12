@@ -34,7 +34,7 @@ mappings:
     sheet: Plan1
     members:
     - {title: C02, property: tags}
-    # se mappedBy não for informado usa a property do converter que tiver o mesmo title/column!
+    # se mappedBy não for informado usa a property do converterName que tiver o mesmo title/column!
     - {title: C03, converter: place, property: places, mappedBy: description}
   -
     # bean com referências simples
@@ -44,4 +44,3 @@ mappings:
     members:
     - {converter: net.technearts.SimpleEntity, property: simpleEntity}
     - {converter: net.technearts.PlaceTags, property: placeTags}
-    

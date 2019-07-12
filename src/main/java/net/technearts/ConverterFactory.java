@@ -68,9 +68,9 @@ public final class ConverterFactory {
 
   public static final <T> Converter<T> converter(Member member) {
     try {
-      return converter(Class.forName(member.getConverter()));
+      return converter(Class.forName(member.getConverterName()));
     } catch (ClassNotFoundException | NullPointerException e) {
-      return converter(member.getConverter());
+      return converter(member.getConverterName());
     }
   }
 }

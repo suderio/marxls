@@ -1,6 +1,15 @@
 package net.technearts;
 
-import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import net.technearts.ExcelFile.ExcelSheet;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,17 +19,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.function.Predicate;
 
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
-import net.technearts.ExcelFile.ExcelSheet;
+import static org.apache.poi.ss.util.CellReference.convertColStringToIndex;
 
 public class ExcelMarshaller {
 
@@ -45,6 +44,20 @@ public class ExcelMarshaller {
     this.repo = new Repository();
   }
 
+  private ExcelMarshaller(Mappings mappings, String separator, Predicate<Row> rowFilter,
+      boolean skipTitle) {
+    this.mappings = mappings;
+    this.sheets = new HashSet<>();
+    this.separator = separator;
+    this.rowFilter = rowFilter;
+    this.skipTitle = skipTitle;
+    this.repo = new Repository();
+  }
+
+  private ExcelMarshaller(Mappings mappings, Predicate<Row> rowFilter, boolean skipTitle) {
+    this(mappings, ";", rowFilter, skipTitle);
+  }
+
   private ExcelMarshaller(File yaml, Predicate<Row> rowFilter, boolean skipTitle)
       throws IOException {
     this(yaml, ";", rowFilter, skipTitle);
@@ -54,9 +67,22 @@ public class ExcelMarshaller {
     return create(file, any -> true, true);
   }
 
+  public static ExcelMarshaller create(@NotNull Mappings mappings) {
+    return create(mappings, any -> true, true);
+  }
+
   public static ExcelMarshaller create(File file, Predicate<Row> rowFilter, boolean skipTitle)
       throws IOException {
     ExcelMarshaller marshaller = new ExcelMarshaller(file, rowFilter, skipTitle);
+    for (Mapping mapping : marshaller.mappings.getMappings()) {
+      marshaller.sheets.add(mapping.getSheet());
+    }
+    return marshaller;
+  }
+
+  public static ExcelMarshaller create(Mappings mappings, Predicate<Row> rowFilter,
+      boolean skipTitle) {
+    ExcelMarshaller marshaller = new ExcelMarshaller(mappings, rowFilter, skipTitle);
     for (Mapping mapping : marshaller.mappings.getMappings()) {
       marshaller.sheets.add(mapping.getSheet());
     }
@@ -93,7 +119,7 @@ public class ExcelMarshaller {
           sheet.read(line, column(sheet, member), ConverterFactory.converter(member), value -> repo
               .set(entity, member, value, this.separator, this.mappings.getMappings()));
         } else {
-          repo.set(entity, member, repo.get(member.getConverter(), line), this.separator,
+          repo.set(entity, member, repo.get(member.getConverterName(), line), this.separator,
               this.mappings.getMappings());
         }
       } else {
@@ -134,5 +160,4 @@ public class ExcelMarshaller {
   public void addBeanFilter(Predicate<Object> predicate) {
     repo.addFilter(predicate);
   }
-
 }

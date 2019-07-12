@@ -71,7 +71,7 @@ public class Repository {
       List<Mapping> mappings) {
     final String name = member.getProperty();
     final String mappedBy = member.getMappedBy();
-    final String converter = member.getConverter();
+    final String converter = member.getConverterName();
     try {
       Class<T> klass = (Class<T>) PropertyUtils.getPropertyType(bean, name);
       if (Arrays.asList(klass.getInterfaces()).contains(Collection.class)) {
