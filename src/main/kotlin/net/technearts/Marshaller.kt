@@ -1,6 +1,7 @@
 package net.technearts
 
 import lombok.extern.log4j.Log4j2
+import mu.KotlinLogging
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.ss.util.CellReference.convertColStringToIndex
@@ -13,6 +14,7 @@ import kotlin.collections.HashSet
 
 @Log4j2
 data class Marshaller(val mappings: Mappings, val separator: String = ";", val rowFilter: (Row) -> Boolean = { _ -> true }, val skipTitle: Boolean = false) {
+    private val log = KotlinLogging.logger {}
     private val sheets: Set<String> = HashSet()
     private val repo: Repository = Repository()
 
@@ -22,7 +24,7 @@ data class Marshaller(val mappings: Mappings, val separator: String = ";", val r
         try {
             ExcelFile(xls).use { file ->
                 for (mapping in this.mappings.mappings!!) {
-                    sheet = file.sheet(mapping.sheetName)
+                    sheet = file.sheet(mapping.sheet)
                     klazz = Class.forName(mapping.className)
                     for (line in getLines(sheet)) {
                         val entity = klazz!!.newInstance()
@@ -62,9 +64,9 @@ data class Marshaller(val mappings: Mappings, val separator: String = ";", val r
                         { value -> repo.set<Any, String>(member, line, value) })
             }
         } catch (e: IllegalArgumentException) {
-            //log.debug("A coluna referente à " + member.property + " não foi encontrada.")
+            log.debug("A coluna referente à {} não foi encontrada.", member.property)
         } catch (e: NullPointerException) {
-            //log.debug("### A coluna referente à " + member.property + " não foi encontrada. ###")
+            log.debug("### A coluna referente à {} não foi encontrada. ###", member.property)
         }
 
     }

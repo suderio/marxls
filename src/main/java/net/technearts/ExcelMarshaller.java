@@ -73,7 +73,7 @@ public class ExcelMarshaller {
       throws IOException {
     ExcelMarshaller marshaller = new ExcelMarshaller(file, rowFilter, skipTitle);
     for (Mapping mapping : marshaller.mappings.getMappings()) {
-      marshaller.sheets.add(mapping.getSheetName());
+      marshaller.sheets.add(mapping.getSheet());
     }
     return marshaller;
   }
@@ -82,7 +82,7 @@ public class ExcelMarshaller {
       boolean skipTitle) {
     ExcelMarshaller marshaller = new ExcelMarshaller(mappings, rowFilter, skipTitle);
     for (Mapping mapping : marshaller.mappings.getMappings()) {
-      marshaller.sheets.add(mapping.getSheetName());
+      marshaller.sheets.add(mapping.getSheet());
     }
     return marshaller;
   }
@@ -92,7 +92,7 @@ public class ExcelMarshaller {
     Class<?> klazz = null;
     try (ExcelFile file = new ExcelFile(xls)) {
       for (Mapping mapping : this.mappings.getMappings()) {
-        sheet = file.sheet(mapping.getSheetName());
+        sheet = file.sheet(mapping.getSheet());
         klazz = Class.forName(mapping.getClassName());
         for (int line : getLines(sheet)) {
           Object entity = klazz.newInstance();

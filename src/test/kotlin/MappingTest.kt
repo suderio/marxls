@@ -1,11 +1,12 @@
 import junit.framework.Assert.fail
 import net.technearts.*
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import java.io.File
 import java.io.IOException
 import java.net.URISyntaxException
-
+@Ignore
 class MappingTest {
     private var marshaller: ExcelMarshaller? = null
 
