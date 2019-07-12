@@ -14,7 +14,7 @@ infix fun <T : Any, V : Any> Triple<Class<T>, String, String>.read(members: List
     val mapping = Mapping()
     mapping.className = this.first.name
     mapping.name = this.second
-    mapping.sheet = this.third
+    mapping.sheetName = this.third
     mapping.members = members.map {
         val member = Member()
         member.property = it.first

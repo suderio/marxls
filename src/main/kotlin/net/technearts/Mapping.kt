@@ -2,8 +2,9 @@ package net.technearts
 
 class Mapping {
     var name: String? = null
-    var sheet: String? = null
+    var sheetName: String? = null
     var className: String? = null
+    var klazz: Class<*>? = null
     var members: List<Member>? = null
 
     fun getMember(titleOrColumn: String): Member? {

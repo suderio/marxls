@@ -1,7 +1,5 @@
 package net.technearts;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import net.technearts.ExcelFile.ExcelSheet;
@@ -34,7 +32,7 @@ public class ExcelMarshaller {
   private Repository repo;
 
   private ExcelMarshaller(File yaml, String separator, Predicate<Row> rowFilter, boolean skipTitle)
-      throws JsonParseException, JsonMappingException, IOException {
+      throws IOException {
     ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
     this.mappings = mapper.readValue(yaml, Mappings.class);
     this.sheets = new HashSet<>();
@@ -75,7 +73,7 @@ public class ExcelMarshaller {
       throws IOException {
     ExcelMarshaller marshaller = new ExcelMarshaller(file, rowFilter, skipTitle);
     for (Mapping mapping : marshaller.mappings.getMappings()) {
-      marshaller.sheets.add(mapping.getSheet());
+      marshaller.sheets.add(mapping.getSheetName());
     }
     return marshaller;
   }
@@ -84,7 +82,7 @@ public class ExcelMarshaller {
       boolean skipTitle) {
     ExcelMarshaller marshaller = new ExcelMarshaller(mappings, rowFilter, skipTitle);
     for (Mapping mapping : marshaller.mappings.getMappings()) {
-      marshaller.sheets.add(mapping.getSheet());
+      marshaller.sheets.add(mapping.getSheetName());
     }
     return marshaller;
   }
@@ -94,7 +92,7 @@ public class ExcelMarshaller {
     Class<?> klazz = null;
     try (ExcelFile file = new ExcelFile(xls)) {
       for (Mapping mapping : this.mappings.getMappings()) {
-        sheet = file.sheet(mapping.getSheet());
+        sheet = file.sheet(mapping.getSheetName());
         klazz = Class.forName(mapping.getClassName());
         for (int line : getLines(sheet)) {
           Object entity = klazz.newInstance();
